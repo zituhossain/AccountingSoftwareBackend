@@ -1,0 +1,33 @@
+{
+  "kind": "collectionType",
+  "collectionName": "invoice_details",
+  "info": {
+    "singularName": "invoice-detail",
+    "pluralName": "invoice-details",
+    "displayName": "Invoice_details"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "invoice_master": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::invoice-master.invoice-master",
+      "inversedBy": "invoice_details"
+    },
+    "vehical_number": {
+      "type": "string"
+    },
+    "container_number": {
+      "type": "string"
+    },
+    "rate": {
+      "type": "biginteger"
+    },
+    "overweight": {
+      "type": "integer"
+    }
+  }
+}

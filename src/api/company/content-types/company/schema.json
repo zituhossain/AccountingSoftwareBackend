@@ -48,6 +48,12 @@
     },
     "status": {
       "type": "boolean"
+    },
+    "invoice_masters": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::invoice-master.invoice-master",
+      "mappedBy": "company_id"
     }
   }
 }

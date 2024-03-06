@@ -1,0 +1,57 @@
+{
+  "kind": "collectionType",
+  "collectionName": "invoice_masters",
+  "info": {
+    "singularName": "invoice-master",
+    "pluralName": "invoice-masters",
+    "displayName": "Invoice_master"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "company_id": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::company.company",
+      "inversedBy": "invoice_masters"
+    },
+    "status": {
+      "type": "boolean"
+    },
+    "date": {
+      "type": "datetime"
+    },
+    "title": {
+      "type": "string"
+    },
+    "subject": {
+      "type": "string"
+    },
+    "remarks": {
+      "type": "string"
+    },
+    "account_name": {
+      "type": "string"
+    },
+    "account_number": {
+      "type": "string"
+    },
+    "account_address": {
+      "type": "text"
+    },
+    "lc_number": {
+      "type": "string"
+    },
+    "bl_number": {
+      "type": "string"
+    },
+    "invoice_details": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::invoice-detail.invoice-detail",
+      "mappedBy": "invoice_master"
+    }
+  }
+}

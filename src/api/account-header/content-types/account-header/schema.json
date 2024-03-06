@@ -1,0 +1,30 @@
+{
+  "kind": "collectionType",
+  "collectionName": "account_headers",
+  "info": {
+    "singularName": "account-header",
+    "pluralName": "account-headers",
+    "displayName": "Account_headers"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "head": {
+      "type": "string"
+    },
+    "description": {
+      "type": "text"
+    },
+    "status": {
+      "type": "boolean"
+    },
+    "journal_details": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::journal-detail.journal-detail",
+      "mappedBy": "accout_header_id"
+    }
+  }
+}

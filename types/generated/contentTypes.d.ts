@@ -362,90 +362,6 @@ export interface AdminTransferTokenPermission extends Schema.CollectionType {
   };
 }
 
-export interface ApiCompanyCompany extends Schema.CollectionType {
-  collectionName: 'companies';
-  info: {
-    singularName: 'company';
-    pluralName: 'companies';
-    displayName: 'company';
-    description: '';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    type: Attribute.Enumeration<['supplier', 'customer']> & Attribute.Required;
-    name: Attribute.String & Attribute.Required;
-    address: Attribute.Text;
-    email: Attribute.Email & Attribute.Unique;
-    logo: Attribute.Media;
-    code: Attribute.String;
-    phone: Attribute.String;
-    status: Attribute.Boolean;
-    createdAt: Attribute.DateTime;
-    updatedAt: Attribute.DateTime;
-    publishedAt: Attribute.DateTime;
-    createdBy: Attribute.Relation<
-      'api::company.company',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-    updatedBy: Attribute.Relation<
-      'api::company.company',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-  };
-}
-
-export interface ApiQuotationQuotation extends Schema.CollectionType {
-  collectionName: 'quotations';
-  info: {
-    singularName: 'quotation';
-    pluralName: 'quotations';
-    displayName: 'quotation';
-    description: '';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    quotation_no: Attribute.String;
-    subject: Attribute.String;
-    supplier_rate: Attribute.BigInteger & Attribute.Required;
-    top4_rate: Attribute.BigInteger & Attribute.Required;
-    no_of_trailers: Attribute.Integer;
-    overweight: Attribute.Integer;
-    shipping_agent_name: Attribute.String;
-    lc_number: Attribute.String;
-    bl_number: Attribute.String;
-    remarks: Attribute.Text;
-    status: Attribute.Boolean;
-    supplier_id: Attribute.Relation<
-      'api::quotation.quotation',
-      'oneToMany',
-      'api::company.company'
-    >;
-    createdAt: Attribute.DateTime;
-    updatedAt: Attribute.DateTime;
-    publishedAt: Attribute.DateTime;
-    createdBy: Attribute.Relation<
-      'api::quotation.quotation',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-    updatedBy: Attribute.Relation<
-      'api::quotation.quotation',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-  };
-}
-
 export interface PluginUploadFile extends Schema.CollectionType {
   collectionName: 'files';
   info: {
@@ -867,6 +783,300 @@ export interface PluginI18NLocale extends Schema.CollectionType {
   };
 }
 
+export interface ApiAccountHeaderAccountHeader extends Schema.CollectionType {
+  collectionName: 'account_headers';
+  info: {
+    singularName: 'account-header';
+    pluralName: 'account-headers';
+    displayName: 'Account_headers';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    head: Attribute.String;
+    description: Attribute.Text;
+    status: Attribute.Boolean;
+    journal_details: Attribute.Relation<
+      'api::account-header.account-header',
+      'oneToMany',
+      'api::journal-detail.journal-detail'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::account-header.account-header',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::account-header.account-header',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiCompanyCompany extends Schema.CollectionType {
+  collectionName: 'companies';
+  info: {
+    singularName: 'company';
+    pluralName: 'companies';
+    displayName: 'company';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    type: Attribute.Enumeration<['supplier', 'customer']> & Attribute.Required;
+    name: Attribute.String & Attribute.Required;
+    address: Attribute.Text;
+    email: Attribute.Email & Attribute.Unique;
+    logo: Attribute.Media;
+    code: Attribute.String;
+    phone: Attribute.String;
+    status: Attribute.Boolean;
+    invoice_masters: Attribute.Relation<
+      'api::company.company',
+      'oneToMany',
+      'api::invoice-master.invoice-master'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::company.company',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::company.company',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiInvoiceDetailInvoiceDetail extends Schema.CollectionType {
+  collectionName: 'invoice_details';
+  info: {
+    singularName: 'invoice-detail';
+    pluralName: 'invoice-details';
+    displayName: 'Invoice_details';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    invoice_master: Attribute.Relation<
+      'api::invoice-detail.invoice-detail',
+      'manyToOne',
+      'api::invoice-master.invoice-master'
+    >;
+    vehical_number: Attribute.String;
+    container_number: Attribute.String;
+    rate: Attribute.BigInteger;
+    overweight: Attribute.Integer;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::invoice-detail.invoice-detail',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::invoice-detail.invoice-detail',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiInvoiceMasterInvoiceMaster extends Schema.CollectionType {
+  collectionName: 'invoice_masters';
+  info: {
+    singularName: 'invoice-master';
+    pluralName: 'invoice-masters';
+    displayName: 'Invoice_master';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    company_id: Attribute.Relation<
+      'api::invoice-master.invoice-master',
+      'manyToOne',
+      'api::company.company'
+    >;
+    status: Attribute.Boolean;
+    date: Attribute.DateTime;
+    title: Attribute.String;
+    subject: Attribute.String;
+    remarks: Attribute.String;
+    account_name: Attribute.String;
+    account_number: Attribute.String;
+    account_address: Attribute.Text;
+    lc_number: Attribute.String;
+    bl_number: Attribute.String;
+    invoice_details: Attribute.Relation<
+      'api::invoice-master.invoice-master',
+      'oneToMany',
+      'api::invoice-detail.invoice-detail'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::invoice-master.invoice-master',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::invoice-master.invoice-master',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiJournalDetailJournalDetail extends Schema.CollectionType {
+  collectionName: 'journal_details';
+  info: {
+    singularName: 'journal-detail';
+    pluralName: 'journal-details';
+    displayName: 'Journal_details';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    accout_header_id: Attribute.Relation<
+      'api::journal-detail.journal-detail',
+      'manyToOne',
+      'api::account-header.account-header'
+    >;
+    debit_amount: Attribute.BigInteger;
+    credit_amount: Attribute.BigInteger;
+    sub_head: Attribute.String;
+    notes: Attribute.Text;
+    status: Attribute.Boolean;
+    journal_master: Attribute.Relation<
+      'api::journal-detail.journal-detail',
+      'manyToOne',
+      'api::journal-master.journal-master'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::journal-detail.journal-detail',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::journal-detail.journal-detail',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiJournalMasterJournalMaster extends Schema.CollectionType {
+  collectionName: 'journal_masters';
+  info: {
+    singularName: 'journal-master';
+    pluralName: 'journal-masters';
+    displayName: 'Journal_master';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    journal_no: Attribute.String;
+    date: Attribute.DateTime;
+    journal_details: Attribute.Relation<
+      'api::journal-master.journal-master',
+      'oneToMany',
+      'api::journal-detail.journal-detail'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::journal-master.journal-master',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::journal-master.journal-master',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiQuotationQuotation extends Schema.CollectionType {
+  collectionName: 'quotations';
+  info: {
+    singularName: 'quotation';
+    pluralName: 'quotations';
+    displayName: 'quotation';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    quotation_no: Attribute.String;
+    subject: Attribute.String;
+    supplier_rate: Attribute.BigInteger & Attribute.Required;
+    top4_rate: Attribute.BigInteger & Attribute.Required;
+    no_of_trailers: Attribute.Integer;
+    overweight: Attribute.Integer;
+    shipping_agent_name: Attribute.String;
+    lc_number: Attribute.String;
+    bl_number: Attribute.String;
+    remarks: Attribute.Text;
+    status: Attribute.Boolean;
+    supplier_id: Attribute.Relation<
+      'api::quotation.quotation',
+      'oneToMany',
+      'api::company.company'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::quotation.quotation',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::quotation.quotation',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
 declare module '@strapi/types' {
   export module Shared {
     export interface ContentTypes {
@@ -877,8 +1087,6 @@ declare module '@strapi/types' {
       'admin::api-token-permission': AdminApiTokenPermission;
       'admin::transfer-token': AdminTransferToken;
       'admin::transfer-token-permission': AdminTransferTokenPermission;
-      'api::company.company': ApiCompanyCompany;
-      'api::quotation.quotation': ApiQuotationQuotation;
       'plugin::upload.file': PluginUploadFile;
       'plugin::upload.folder': PluginUploadFolder;
       'plugin::content-releases.release': PluginContentReleasesRelease;
@@ -887,6 +1095,13 @@ declare module '@strapi/types' {
       'plugin::users-permissions.role': PluginUsersPermissionsRole;
       'plugin::users-permissions.user': PluginUsersPermissionsUser;
       'plugin::i18n.locale': PluginI18NLocale;
+      'api::account-header.account-header': ApiAccountHeaderAccountHeader;
+      'api::company.company': ApiCompanyCompany;
+      'api::invoice-detail.invoice-detail': ApiInvoiceDetailInvoiceDetail;
+      'api::invoice-master.invoice-master': ApiInvoiceMasterInvoiceMaster;
+      'api::journal-detail.journal-detail': ApiJournalDetailJournalDetail;
+      'api::journal-master.journal-master': ApiJournalMasterJournalMaster;
+      'api::quotation.quotation': ApiQuotationQuotation;
     }
   }
 }
