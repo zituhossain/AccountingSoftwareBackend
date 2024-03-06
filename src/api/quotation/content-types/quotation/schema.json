@@ -1,0 +1,56 @@
+{
+  "kind": "collectionType",
+  "collectionName": "quotations",
+  "info": {
+    "singularName": "quotation",
+    "pluralName": "quotations",
+    "displayName": "quotation",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "quotation_no": {
+      "type": "string"
+    },
+    "subject": {
+      "type": "string"
+    },
+    "supplier_rate": {
+      "type": "biginteger",
+      "required": true
+    },
+    "top4_rate": {
+      "type": "biginteger",
+      "required": true
+    },
+    "no_of_trailers": {
+      "type": "integer"
+    },
+    "overweight": {
+      "type": "integer"
+    },
+    "shipping_agent_name": {
+      "type": "string"
+    },
+    "lc_number": {
+      "type": "string"
+    },
+    "bl_number": {
+      "type": "string"
+    },
+    "remarks": {
+      "type": "text"
+    },
+    "status": {
+      "type": "boolean"
+    },
+    "supplier_id": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::company.company"
+    }
+  }
+}

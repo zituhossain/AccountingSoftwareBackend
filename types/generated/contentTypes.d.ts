@@ -362,6 +362,90 @@ export interface AdminTransferTokenPermission extends Schema.CollectionType {
   };
 }
 
+export interface ApiCompanyCompany extends Schema.CollectionType {
+  collectionName: 'companies';
+  info: {
+    singularName: 'company';
+    pluralName: 'companies';
+    displayName: 'company';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    type: Attribute.Enumeration<['supplier', 'customer']> & Attribute.Required;
+    name: Attribute.String & Attribute.Required;
+    address: Attribute.Text;
+    email: Attribute.Email & Attribute.Unique;
+    logo: Attribute.Media;
+    code: Attribute.String;
+    phone: Attribute.String;
+    status: Attribute.Boolean;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::company.company',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::company.company',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiQuotationQuotation extends Schema.CollectionType {
+  collectionName: 'quotations';
+  info: {
+    singularName: 'quotation';
+    pluralName: 'quotations';
+    displayName: 'quotation';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    quotation_no: Attribute.String;
+    subject: Attribute.String;
+    supplier_rate: Attribute.BigInteger & Attribute.Required;
+    top4_rate: Attribute.BigInteger & Attribute.Required;
+    no_of_trailers: Attribute.Integer;
+    overweight: Attribute.Integer;
+    shipping_agent_name: Attribute.String;
+    lc_number: Attribute.String;
+    bl_number: Attribute.String;
+    remarks: Attribute.Text;
+    status: Attribute.Boolean;
+    supplier_id: Attribute.Relation<
+      'api::quotation.quotation',
+      'oneToMany',
+      'api::company.company'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::quotation.quotation',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::quotation.quotation',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
 export interface PluginUploadFile extends Schema.CollectionType {
   collectionName: 'files';
   info: {
@@ -793,6 +877,8 @@ declare module '@strapi/types' {
       'admin::api-token-permission': AdminApiTokenPermission;
       'admin::transfer-token': AdminTransferToken;
       'admin::transfer-token-permission': AdminTransferTokenPermission;
+      'api::company.company': ApiCompanyCompany;
+      'api::quotation.quotation': ApiQuotationQuotation;
       'plugin::upload.file': PluginUploadFile;
       'plugin::upload.folder': PluginUploadFolder;
       'plugin::content-releases.release': PluginContentReleasesRelease;
