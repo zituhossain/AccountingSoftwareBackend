@@ -690,7 +690,6 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
   };
   options: {
     draftAndPublish: false;
-    timestamps: true;
   };
   attributes: {
     username: Attribute.String &
@@ -718,6 +717,11 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
       'plugin::users-permissions.user',
       'manyToOne',
       'plugin::users-permissions.role'
+    >;
+    companies_id: Attribute.Relation<
+      'plugin::users-permissions.user',
+      'oneToOne',
+      'api::company.company'
     >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
@@ -820,6 +824,89 @@ export interface ApiAccountHeaderAccountHeader extends Schema.CollectionType {
   };
 }
 
+export interface ApiB2BRelationB2BRelation extends Schema.CollectionType {
+  collectionName: 'b2b_relations';
+  info: {
+    singularName: 'b2b-relation';
+    pluralName: 'b2b-relations';
+    displayName: 'b2b_relation';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    company_id: Attribute.Relation<
+      'api::b2b-relation.b2b-relation',
+      'oneToOne',
+      'api::company.company'
+    >;
+    business_contact_id: Attribute.Relation<
+      'api::b2b-relation.b2b-relation',
+      'oneToOne',
+      'api::company.company'
+    >;
+    relation_type: Attribute.Relation<
+      'api::b2b-relation.b2b-relation',
+      'oneToOne',
+      'api::b2b-relation-type.b2b-relation-type'
+    >;
+    status: Attribute.Boolean;
+    created_user: Attribute.Relation<
+      'api::b2b-relation.b2b-relation',
+      'oneToOne',
+      'plugin::users-permissions.user'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::b2b-relation.b2b-relation',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::b2b-relation.b2b-relation',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiB2BRelationTypeB2BRelationType
+  extends Schema.CollectionType {
+  collectionName: 'b2b_relation_types';
+  info: {
+    singularName: 'b2b-relation-type';
+    pluralName: 'b2b-relation-types';
+    displayName: 'b2b_relation_type';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    title: Attribute.String & Attribute.Required & Attribute.Unique;
+    status: Attribute.Boolean & Attribute.DefaultTo<true>;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::b2b-relation-type.b2b-relation-type',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::b2b-relation-type.b2b-relation-type',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
 export interface ApiCompanyCompany extends Schema.CollectionType {
   collectionName: 'companies';
   info: {
@@ -832,7 +919,6 @@ export interface ApiCompanyCompany extends Schema.CollectionType {
     draftAndPublish: true;
   };
   attributes: {
-    type: Attribute.Enumeration<['supplier', 'customer']> & Attribute.Required;
     name: Attribute.String & Attribute.Required;
     address: Attribute.Text;
     email: Attribute.Email & Attribute.Unique;
@@ -840,10 +926,10 @@ export interface ApiCompanyCompany extends Schema.CollectionType {
     code: Attribute.String;
     phone: Attribute.String;
     status: Attribute.Boolean;
-    invoice_masters: Attribute.Relation<
+    created_user: Attribute.Relation<
       'api::company.company',
-      'oneToMany',
-      'api::invoice-master.invoice-master'
+      'oneToOne',
+      'plugin::users-permissions.user'
     >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
@@ -856,6 +942,88 @@ export interface ApiCompanyCompany extends Schema.CollectionType {
       Attribute.Private;
     updatedBy: Attribute.Relation<
       'api::company.company',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiContactPersonContactPerson extends Schema.CollectionType {
+  collectionName: 'contact_people';
+  info: {
+    singularName: 'contact-person';
+    pluralName: 'contact-people';
+    displayName: 'contact_person';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    company_id: Attribute.Relation<
+      'api::contact-person.contact-person',
+      'oneToOne',
+      'api::company.company'
+    >;
+    name: Attribute.String & Attribute.Required;
+    phone: Attribute.String & Attribute.Required & Attribute.Unique;
+    email: Attribute.String & Attribute.Unique;
+    address: Attribute.String;
+    image: Attribute.Media;
+    status: Attribute.Boolean & Attribute.DefaultTo<true>;
+    created_user: Attribute.Relation<
+      'api::contact-person.contact-person',
+      'oneToOne',
+      'plugin::users-permissions.user'
+    >;
+    contact_type: Attribute.Relation<
+      'api::contact-person.contact-person',
+      'oneToOne',
+      'api::contact-type.contact-type'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::contact-person.contact-person',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::contact-person.contact-person',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiContactTypeContactType extends Schema.CollectionType {
+  collectionName: 'contact_types';
+  info: {
+    singularName: 'contact-type';
+    pluralName: 'contact-types';
+    displayName: 'contact_type';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    title: Attribute.String & Attribute.Required & Attribute.Unique;
+    status: Attribute.Boolean & Attribute.DefaultTo<true>;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::contact-type.contact-type',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::contact-type.contact-type',
       'oneToOne',
       'admin::user'
     > &
@@ -912,11 +1080,6 @@ export interface ApiInvoiceMasterInvoiceMaster extends Schema.CollectionType {
     draftAndPublish: true;
   };
   attributes: {
-    company_id: Attribute.Relation<
-      'api::invoice-master.invoice-master',
-      'manyToOne',
-      'api::company.company'
-    >;
     status: Attribute.Boolean;
     date: Attribute.DateTime;
     title: Attribute.String;
@@ -1096,7 +1259,11 @@ declare module '@strapi/types' {
       'plugin::users-permissions.user': PluginUsersPermissionsUser;
       'plugin::i18n.locale': PluginI18NLocale;
       'api::account-header.account-header': ApiAccountHeaderAccountHeader;
+      'api::b2b-relation.b2b-relation': ApiB2BRelationB2BRelation;
+      'api::b2b-relation-type.b2b-relation-type': ApiB2BRelationTypeB2BRelationType;
       'api::company.company': ApiCompanyCompany;
+      'api::contact-person.contact-person': ApiContactPersonContactPerson;
+      'api::contact-type.contact-type': ApiContactTypeContactType;
       'api::invoice-detail.invoice-detail': ApiInvoiceDetailInvoiceDetail;
       'api::invoice-master.invoice-master': ApiInvoiceMasterInvoiceMaster;
       'api::journal-detail.journal-detail': ApiJournalDetailJournalDetail;

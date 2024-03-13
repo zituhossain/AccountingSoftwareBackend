@@ -11,12 +11,6 @@
   },
   "pluginOptions": {},
   "attributes": {
-    "company_id": {
-      "type": "relation",
-      "relation": "manyToOne",
-      "target": "api::company.company",
-      "inversedBy": "invoice_masters"
-    },
     "status": {
       "type": "boolean"
     },

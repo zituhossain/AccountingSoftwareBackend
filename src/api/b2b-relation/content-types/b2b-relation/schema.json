@@ -1,0 +1,39 @@
+{
+  "kind": "collectionType",
+  "collectionName": "b2b_relations",
+  "info": {
+    "singularName": "b2b-relation",
+    "pluralName": "b2b-relations",
+    "displayName": "b2b_relation",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "company_id": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::company.company"
+    },
+    "business_contact_id": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::company.company"
+    },
+    "relation_type": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::b2b-relation-type.b2b-relation-type"
+    },
+    "status": {
+      "type": "boolean"
+    },
+    "created_user": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "plugin::users-permissions.user"
+    }
+  }
+}

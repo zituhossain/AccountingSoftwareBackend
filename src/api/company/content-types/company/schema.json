@@ -12,14 +12,6 @@
   },
   "pluginOptions": {},
   "attributes": {
-    "type": {
-      "type": "enumeration",
-      "enum": [
-        "supplier",
-        "customer"
-      ],
-      "required": true
-    },
     "name": {
       "type": "string",
       "required": true
@@ -49,11 +41,10 @@
     "status": {
       "type": "boolean"
     },
-    "invoice_masters": {
+    "created_user": {
       "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::invoice-master.invoice-master",
-      "mappedBy": "company_id"
+      "relation": "oneToOne",
+      "target": "plugin::users-permissions.user"
     }
   }
 }
