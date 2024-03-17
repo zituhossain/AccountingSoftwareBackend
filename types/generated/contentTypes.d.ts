@@ -1334,6 +1334,42 @@ export interface ApiQuotationQuotation extends Schema.CollectionType {
   };
 }
 
+export interface ApiUserRoleUserRole extends Schema.CollectionType {
+  collectionName: 'user_roles';
+  info: {
+    singularName: 'user-role';
+    pluralName: 'user-roles';
+    displayName: 'user_role';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    title: Attribute.String;
+    status: Attribute.Boolean & Attribute.DefaultTo<true>;
+    created_user: Attribute.Relation<
+      'api::user-role.user-role',
+      'oneToOne',
+      'plugin::users-permissions.user'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::user-role.user-role',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::user-role.user-role',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
 declare module '@strapi/types' {
   export module Shared {
     export interface ContentTypes {
@@ -1364,6 +1400,7 @@ declare module '@strapi/types' {
       'api::journal-detail.journal-detail': ApiJournalDetailJournalDetail;
       'api::journal-master.journal-master': ApiJournalMasterJournalMaster;
       'api::quotation.quotation': ApiQuotationQuotation;
+      'api::user-role.user-role': ApiUserRoleUserRole;
     }
   }
 }
