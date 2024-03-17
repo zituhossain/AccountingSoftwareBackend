@@ -24,9 +24,6 @@
     "credit_amount": {
       "type": "biginteger"
     },
-    "sub_head": {
-      "type": "string"
-    },
     "notes": {
       "type": "text"
     },
@@ -38,6 +35,11 @@
       "relation": "manyToOne",
       "target": "api::journal-master.journal-master",
       "inversedBy": "journal_details"
+    },
+    "sub_head": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::company.company"
     }
   }
 }

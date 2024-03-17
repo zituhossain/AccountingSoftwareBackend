@@ -4,20 +4,15 @@
   "info": {
     "singularName": "invoice-detail",
     "pluralName": "invoice-details",
-    "displayName": "Invoice_details"
+    "displayName": "Invoice_details",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
   },
   "pluginOptions": {},
   "attributes": {
-    "invoice_master": {
-      "type": "relation",
-      "relation": "manyToOne",
-      "target": "api::invoice-master.invoice-master",
-      "inversedBy": "invoice_details"
-    },
-    "vehical_number": {
+    "vehicle_number": {
       "type": "string"
     },
     "container_number": {
@@ -28,6 +23,17 @@
     },
     "overweight": {
       "type": "integer"
+    },
+    "invoice_master_id": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::invoice-master.invoice-master"
+    },
+    "driver_name": {
+      "type": "string"
+    },
+    "driver_phone": {
+      "type": "string"
     }
   }
 }

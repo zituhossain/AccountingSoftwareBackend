@@ -45,6 +45,11 @@
       "type": "relation",
       "relation": "oneToOne",
       "target": "plugin::users-permissions.user"
+    },
+    "company_type": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::company-type.company-type"
     }
   }
 }

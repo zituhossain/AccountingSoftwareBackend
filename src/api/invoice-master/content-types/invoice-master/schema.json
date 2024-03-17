@@ -4,7 +4,8 @@
   "info": {
     "singularName": "invoice-master",
     "pluralName": "invoice-masters",
-    "displayName": "Invoice_master"
+    "displayName": "Invoice_master",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
@@ -41,11 +42,20 @@
     "bl_number": {
       "type": "string"
     },
-    "invoice_details": {
+    "company_id": {
       "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::invoice-detail.invoice-detail",
-      "mappedBy": "invoice_master"
+      "relation": "oneToOne",
+      "target": "api::company.company"
+    },
+    "business_contact_id": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::company.company"
+    },
+    "created_user": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "plugin::users-permissions.user"
     }
   }
 }

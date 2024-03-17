@@ -22,7 +22,7 @@
       "type": "biginteger",
       "required": true
     },
-    "top4_rate": {
+    "our_rate": {
       "type": "biginteger",
       "required": true
     },
@@ -31,9 +31,6 @@
     },
     "overweight": {
       "type": "integer"
-    },
-    "shipping_agent_name": {
-      "type": "string"
     },
     "lc_number": {
       "type": "string"
@@ -47,10 +44,36 @@
     "status": {
       "type": "boolean"
     },
-    "supplier_id": {
+    "business_contact_id": {
       "type": "relation",
-      "relation": "oneToMany",
+      "relation": "oneToOne",
       "target": "api::company.company"
+    },
+    "company_id": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::company.company"
+    },
+    "quotation_image": {
+      "allowedTypes": [
+        "images",
+        "files"
+      ],
+      "type": "media",
+      "multiple": true
+    },
+    "created_user": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "plugin::users-permissions.user"
+    },
+    "send_status": {
+      "type": "boolean",
+      "default": false
+    },
+    "revision_count": {
+      "type": "integer",
+      "default": 0
     }
   }
 }

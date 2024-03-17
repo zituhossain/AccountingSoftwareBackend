@@ -4,7 +4,8 @@
   "info": {
     "singularName": "journal-master",
     "pluralName": "journal-masters",
-    "displayName": "Journal_master"
+    "displayName": "Journal_master",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
@@ -22,6 +23,21 @@
       "relation": "oneToMany",
       "target": "api::journal-detail.journal-detail",
       "mappedBy": "journal_master"
+    },
+    "company_id": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::company.company"
+    },
+    "total_debit_amount": {
+      "type": "decimal"
+    },
+    "total_credit_amount": {
+      "type": "decimal"
+    },
+    "status": {
+      "type": "boolean",
+      "default": true
     }
   }
 }

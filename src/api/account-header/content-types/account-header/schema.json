@@ -4,14 +4,15 @@
   "info": {
     "singularName": "account-header",
     "pluralName": "account-headers",
-    "displayName": "Account_headers"
+    "displayName": "Account_headers",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
   },
   "pluginOptions": {},
   "attributes": {
-    "head": {
+    "head_title": {
       "type": "string"
     },
     "description": {
@@ -25,6 +26,16 @@
       "relation": "oneToMany",
       "target": "api::journal-detail.journal-detail",
       "mappedBy": "accout_header_id"
+    },
+    "company_id": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::company.company"
+    },
+    "created_user": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "plugin::users-permissions.user"
     }
   }
 }

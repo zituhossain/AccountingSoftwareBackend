@@ -1,0 +1,30 @@
+{
+  "kind": "collectionType",
+  "collectionName": "company_types",
+  "info": {
+    "singularName": "company-type",
+    "pluralName": "company-types",
+    "displayName": "company_type",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true,
+      "unique": true
+    },
+    "status": {
+      "type": "boolean",
+      "default": true
+    },
+    "created_user": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "plugin::users-permissions.user"
+    }
+  }
+}
