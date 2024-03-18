@@ -12,12 +12,12 @@
   },
   "pluginOptions": {},
   "attributes": {
-    "company_id": {
+    "company": {
       "type": "relation",
       "relation": "oneToOne",
       "target": "api::company.company"
     },
-    "business_contact_id": {
+    "business_contact": {
       "type": "relation",
       "relation": "oneToOne",
       "target": "api::company.company"

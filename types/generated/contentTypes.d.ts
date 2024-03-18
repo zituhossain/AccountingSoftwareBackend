@@ -718,13 +718,18 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
       'manyToOne',
       'plugin::users-permissions.role'
     >;
-    companies_id: Attribute.Relation<
+    companies: Attribute.Relation<
       'plugin::users-permissions.user',
       'oneToOne',
       'api::company.company'
     >;
     image: Attribute.Media;
     signature: Attribute.Media;
+    organizational_position: Attribute.Relation<
+      'plugin::users-permissions.user',
+      'oneToOne',
+      'api::organizational-position.organizational-position'
+    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
@@ -804,12 +809,7 @@ export interface ApiAccountHeaderAccountHeader extends Schema.CollectionType {
     head_title: Attribute.String;
     description: Attribute.Text;
     status: Attribute.Boolean;
-    journal_details: Attribute.Relation<
-      'api::account-header.account-header',
-      'oneToMany',
-      'api::journal-detail.journal-detail'
-    >;
-    company_id: Attribute.Relation<
+    company: Attribute.Relation<
       'api::account-header.account-header',
       'oneToOne',
       'api::company.company'
@@ -818,6 +818,11 @@ export interface ApiAccountHeaderAccountHeader extends Schema.CollectionType {
       'api::account-header.account-header',
       'oneToOne',
       'plugin::users-permissions.user'
+    >;
+    journal_details: Attribute.Relation<
+      'api::account-header.account-header',
+      'oneToMany',
+      'api::journal-detail.journal-detail'
     >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
@@ -849,12 +854,12 @@ export interface ApiB2BRelationB2BRelation extends Schema.CollectionType {
     draftAndPublish: true;
   };
   attributes: {
-    company_id: Attribute.Relation<
+    company: Attribute.Relation<
       'api::b2b-relation.b2b-relation',
       'oneToOne',
       'api::company.company'
     >;
-    business_contact_id: Attribute.Relation<
+    business_contact: Attribute.Relation<
       'api::b2b-relation.b2b-relation',
       'oneToOne',
       'api::company.company'
@@ -944,11 +949,8 @@ export interface ApiCompanyCompany extends Schema.CollectionType {
       'oneToOne',
       'plugin::users-permissions.user'
     >;
-    company_type: Attribute.Relation<
-      'api::company.company',
-      'oneToOne',
-      'api::company-type.company-type'
-    >;
+    website: Attribute.String;
+    legal_information: Attribute.String;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -960,43 +962,6 @@ export interface ApiCompanyCompany extends Schema.CollectionType {
       Attribute.Private;
     updatedBy: Attribute.Relation<
       'api::company.company',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-  };
-}
-
-export interface ApiCompanyTypeCompanyType extends Schema.CollectionType {
-  collectionName: 'company_types';
-  info: {
-    singularName: 'company-type';
-    pluralName: 'company-types';
-    displayName: 'company_type';
-    description: '';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    title: Attribute.String & Attribute.Required & Attribute.Unique;
-    status: Attribute.Boolean & Attribute.DefaultTo<true>;
-    created_user: Attribute.Relation<
-      'api::company-type.company-type',
-      'oneToOne',
-      'plugin::users-permissions.user'
-    >;
-    createdAt: Attribute.DateTime;
-    updatedAt: Attribute.DateTime;
-    publishedAt: Attribute.DateTime;
-    createdBy: Attribute.Relation<
-      'api::company-type.company-type',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-    updatedBy: Attribute.Relation<
-      'api::company-type.company-type',
       'oneToOne',
       'admin::user'
     > &
@@ -1016,7 +981,7 @@ export interface ApiContactPersonContactPerson extends Schema.CollectionType {
     draftAndPublish: true;
   };
   attributes: {
-    company_id: Attribute.Relation<
+    company: Attribute.Relation<
       'api::contact-person.contact-person',
       'oneToOne',
       'api::company.company'
@@ -1102,7 +1067,7 @@ export interface ApiInvoiceDetailInvoiceDetail extends Schema.CollectionType {
     container_number: Attribute.String;
     rate: Attribute.BigInteger;
     overweight: Attribute.Integer;
-    invoice_master_id: Attribute.Relation<
+    invoice_master: Attribute.Relation<
       'api::invoice-detail.invoice-detail',
       'oneToOne',
       'api::invoice-master.invoice-master'
@@ -1149,12 +1114,12 @@ export interface ApiInvoiceMasterInvoiceMaster extends Schema.CollectionType {
     account_address: Attribute.Text;
     lc_number: Attribute.String;
     bl_number: Attribute.String;
-    company_id: Attribute.Relation<
+    company: Attribute.Relation<
       'api::invoice-master.invoice-master',
       'oneToOne',
       'api::company.company'
     >;
-    business_contact_id: Attribute.Relation<
+    business_contact: Attribute.Relation<
       'api::invoice-master.invoice-master',
       'oneToOne',
       'api::company.company'
@@ -1194,7 +1159,7 @@ export interface ApiJournalDetailJournalDetail extends Schema.CollectionType {
     draftAndPublish: true;
   };
   attributes: {
-    accout_header_id: Attribute.Relation<
+    accout_header: Attribute.Relation<
       'api::journal-detail.journal-detail',
       'manyToOne',
       'api::account-header.account-header'
@@ -1250,7 +1215,7 @@ export interface ApiJournalMasterJournalMaster extends Schema.CollectionType {
       'oneToMany',
       'api::journal-detail.journal-detail'
     >;
-    company_id: Attribute.Relation<
+    company: Attribute.Relation<
       'api::journal-master.journal-master',
       'oneToOne',
       'api::company.company'
@@ -1276,6 +1241,38 @@ export interface ApiJournalMasterJournalMaster extends Schema.CollectionType {
   };
 }
 
+export interface ApiOrganizationalPositionOrganizationalPosition
+  extends Schema.CollectionType {
+  collectionName: 'organizational_positions';
+  info: {
+    singularName: 'organizational-position';
+    pluralName: 'organizational-positions';
+    displayName: 'organizational_position';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    title: Attribute.String;
+    status: Attribute.Boolean & Attribute.DefaultTo<true>;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::organizational-position.organizational-position',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::organizational-position.organizational-position',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
 export interface ApiQuotationQuotation extends Schema.CollectionType {
   collectionName: 'quotations';
   info: {
@@ -1290,25 +1287,24 @@ export interface ApiQuotationQuotation extends Schema.CollectionType {
   attributes: {
     quotation_no: Attribute.String;
     subject: Attribute.String;
-    supplier_rate: Attribute.BigInteger & Attribute.Required;
+    client_rate: Attribute.BigInteger & Attribute.Required;
     our_rate: Attribute.BigInteger & Attribute.Required;
-    no_of_trailers: Attribute.Integer;
+    no_of_items: Attribute.Integer;
     overweight: Attribute.Integer;
     lc_number: Attribute.String;
     bl_number: Attribute.String;
     remarks: Attribute.Text;
     status: Attribute.Boolean;
-    business_contact_id: Attribute.Relation<
+    business_contact: Attribute.Relation<
       'api::quotation.quotation',
       'oneToOne',
       'api::company.company'
     >;
-    company_id: Attribute.Relation<
+    company: Attribute.Relation<
       'api::quotation.quotation',
       'oneToOne',
       'api::company.company'
     >;
-    quotation_image: Attribute.Media;
     created_user: Attribute.Relation<
       'api::quotation.quotation',
       'oneToOne',
@@ -1327,42 +1323,6 @@ export interface ApiQuotationQuotation extends Schema.CollectionType {
       Attribute.Private;
     updatedBy: Attribute.Relation<
       'api::quotation.quotation',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-  };
-}
-
-export interface ApiUserRoleUserRole extends Schema.CollectionType {
-  collectionName: 'user_roles';
-  info: {
-    singularName: 'user-role';
-    pluralName: 'user-roles';
-    displayName: 'user_role';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    title: Attribute.String;
-    status: Attribute.Boolean & Attribute.DefaultTo<true>;
-    created_user: Attribute.Relation<
-      'api::user-role.user-role',
-      'oneToOne',
-      'plugin::users-permissions.user'
-    >;
-    createdAt: Attribute.DateTime;
-    updatedAt: Attribute.DateTime;
-    publishedAt: Attribute.DateTime;
-    createdBy: Attribute.Relation<
-      'api::user-role.user-role',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-    updatedBy: Attribute.Relation<
-      'api::user-role.user-role',
       'oneToOne',
       'admin::user'
     > &
@@ -1392,15 +1352,14 @@ declare module '@strapi/types' {
       'api::b2b-relation.b2b-relation': ApiB2BRelationB2BRelation;
       'api::b2b-relation-type.b2b-relation-type': ApiB2BRelationTypeB2BRelationType;
       'api::company.company': ApiCompanyCompany;
-      'api::company-type.company-type': ApiCompanyTypeCompanyType;
       'api::contact-person.contact-person': ApiContactPersonContactPerson;
       'api::contact-type.contact-type': ApiContactTypeContactType;
       'api::invoice-detail.invoice-detail': ApiInvoiceDetailInvoiceDetail;
       'api::invoice-master.invoice-master': ApiInvoiceMasterInvoiceMaster;
       'api::journal-detail.journal-detail': ApiJournalDetailJournalDetail;
       'api::journal-master.journal-master': ApiJournalMasterJournalMaster;
+      'api::organizational-position.organizational-position': ApiOrganizationalPositionOrganizationalPosition;
       'api::quotation.quotation': ApiQuotationQuotation;
-      'api::user-role.user-role': ApiUserRoleUserRole;
     }
   }
 }

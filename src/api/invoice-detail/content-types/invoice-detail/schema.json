@@ -24,7 +24,7 @@
     "overweight": {
       "type": "integer"
     },
-    "invoice_master_id": {
+    "invoice_master": {
       "type": "relation",
       "relation": "oneToOne",
       "target": "api::invoice-master.invoice-master"

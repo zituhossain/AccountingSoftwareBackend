@@ -12,7 +12,7 @@
   },
   "pluginOptions": {},
   "attributes": {
-    "accout_header_id": {
+    "accout_header": {
       "type": "relation",
       "relation": "manyToOne",
       "target": "api::account-header.account-header",

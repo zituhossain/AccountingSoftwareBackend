@@ -24,7 +24,7 @@
       "target": "api::journal-detail.journal-detail",
       "mappedBy": "journal_master"
     },
-    "company_id": {
+    "company": {
       "type": "relation",
       "relation": "oneToOne",
       "target": "api::company.company"

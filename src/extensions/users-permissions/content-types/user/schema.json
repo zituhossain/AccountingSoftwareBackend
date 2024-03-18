@@ -65,24 +65,31 @@
       "inversedBy": "users",
       "configurable": false
     },
-    "companies_id": {
+    "companies": {
       "type": "relation",
       "relation": "oneToOne",
       "target": "api::company.company"
     },
     "image": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
       "allowedTypes": [
         "images"
-      ],
-      "type": "media",
-      "multiple": false
+      ]
     },
     "signature": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
       "allowedTypes": [
         "images"
-      ],
-      "type": "media",
-      "multiple": false
+      ]
+    },
+    "organizational_position": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::organizational-position.organizational-position"
     }
   }
 }

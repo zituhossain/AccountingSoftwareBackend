@@ -1,0 +1,22 @@
+{
+  "kind": "collectionType",
+  "collectionName": "organizational_positions",
+  "info": {
+    "singularName": "organizational-position",
+    "pluralName": "organizational-positions",
+    "displayName": "organizational_position"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "title": {
+      "type": "string"
+    },
+    "status": {
+      "type": "boolean",
+      "default": true
+    }
+  }
+}

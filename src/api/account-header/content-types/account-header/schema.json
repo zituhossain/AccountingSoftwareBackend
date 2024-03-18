@@ -21,13 +21,7 @@
     "status": {
       "type": "boolean"
     },
-    "journal_details": {
-      "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::journal-detail.journal-detail",
-      "mappedBy": "accout_header_id"
-    },
-    "company_id": {
+    "company": {
       "type": "relation",
       "relation": "oneToOne",
       "target": "api::company.company"
@@ -36,6 +30,12 @@
       "type": "relation",
       "relation": "oneToOne",
       "target": "plugin::users-permissions.user"
+    },
+    "journal_details": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::journal-detail.journal-detail",
+      "mappedBy": "accout_header"
     }
   }
 }
