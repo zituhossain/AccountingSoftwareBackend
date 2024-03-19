@@ -65,7 +65,7 @@
       "inversedBy": "users",
       "configurable": false
     },
-    "companies": {
+    "company": {
       "type": "relation",
       "relation": "oneToOne",
       "target": "api::company.company"
@@ -90,6 +90,11 @@
       "type": "relation",
       "relation": "oneToOne",
       "target": "api::organizational-position.organizational-position"
+    },
+    "created_user": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "plugin::users-permissions.user"
     }
   }
 }

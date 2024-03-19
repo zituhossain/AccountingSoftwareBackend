@@ -4,7 +4,8 @@
   "info": {
     "singularName": "organizational-position",
     "pluralName": "organizational-positions",
-    "displayName": "organizational_position"
+    "displayName": "organizational_position",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
@@ -17,6 +18,9 @@
     "status": {
       "type": "boolean",
       "default": true
+    },
+    "description": {
+      "type": "text"
     }
   }
 }

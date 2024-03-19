@@ -718,7 +718,7 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
       'manyToOne',
       'plugin::users-permissions.role'
     >;
-    companies: Attribute.Relation<
+    company: Attribute.Relation<
       'plugin::users-permissions.user',
       'oneToOne',
       'api::company.company'
@@ -729,6 +729,11 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
       'plugin::users-permissions.user',
       'oneToOne',
       'api::organizational-position.organizational-position'
+    >;
+    created_user: Attribute.Relation<
+      'plugin::users-permissions.user',
+      'oneToOne',
+      'plugin::users-permissions.user'
     >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
@@ -1248,6 +1253,7 @@ export interface ApiOrganizationalPositionOrganizationalPosition
     singularName: 'organizational-position';
     pluralName: 'organizational-positions';
     displayName: 'organizational_position';
+    description: '';
   };
   options: {
     draftAndPublish: true;
@@ -1255,6 +1261,7 @@ export interface ApiOrganizationalPositionOrganizationalPosition
   attributes: {
     title: Attribute.String;
     status: Attribute.Boolean & Attribute.DefaultTo<true>;
+    description: Attribute.Text;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
