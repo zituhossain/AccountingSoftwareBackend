@@ -24,7 +24,7 @@
     "phone": {
       "type": "string",
       "required": true,
-      "unique": true
+      "unique": false
     },
     "email": {
       "type": "string",

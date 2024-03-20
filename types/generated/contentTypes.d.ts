@@ -723,8 +723,6 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
       'oneToOne',
       'api::company.company'
     >;
-    image: Attribute.Media;
-    signature: Attribute.Media;
     organizational_position: Attribute.Relation<
       'plugin::users-permissions.user',
       'oneToOne',
@@ -864,7 +862,7 @@ export interface ApiB2BRelationB2BRelation extends Schema.CollectionType {
       'oneToOne',
       'api::company.company'
     >;
-    business_contact: Attribute.Relation<
+    client: Attribute.Relation<
       'api::b2b-relation.b2b-relation',
       'oneToOne',
       'api::company.company'
@@ -992,7 +990,7 @@ export interface ApiContactPersonContactPerson extends Schema.CollectionType {
       'api::company.company'
     >;
     name: Attribute.String & Attribute.Required;
-    phone: Attribute.String & Attribute.Required & Attribute.Unique;
+    phone: Attribute.String & Attribute.Required;
     email: Attribute.String & Attribute.Unique;
     address: Attribute.String;
     image: Attribute.Media;
@@ -1049,6 +1047,57 @@ export interface ApiContactTypeContactType extends Schema.CollectionType {
       Attribute.Private;
     updatedBy: Attribute.Relation<
       'api::contact-type.contact-type',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiEndUserEndUser extends Schema.CollectionType {
+  collectionName: 'end_users';
+  info: {
+    singularName: 'end-user';
+    pluralName: 'end-users';
+    displayName: 'EndUser';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    username: Attribute.String;
+    email: Attribute.Email;
+    password: Attribute.Password;
+    profile: Attribute.Media;
+    signature: Attribute.Media;
+    confirmed: Attribute.Boolean & Attribute.DefaultTo<true>;
+    end_user: Attribute.Relation<
+      'api::end-user.end-user',
+      'oneToOne',
+      'api::end-user.end-user'
+    >;
+    company: Attribute.Relation<
+      'api::end-user.end-user',
+      'oneToOne',
+      'api::company.company'
+    >;
+    organizational_position: Attribute.Relation<
+      'api::end-user.end-user',
+      'oneToOne',
+      'api::organizational-position.organizational-position'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::end-user.end-user',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::end-user.end-user',
       'oneToOne',
       'admin::user'
     > &
@@ -1302,7 +1351,7 @@ export interface ApiQuotationQuotation extends Schema.CollectionType {
     bl_number: Attribute.String;
     remarks: Attribute.Text;
     status: Attribute.Boolean;
-    business_contact: Attribute.Relation<
+    client: Attribute.Relation<
       'api::quotation.quotation',
       'oneToOne',
       'api::company.company'
@@ -1337,6 +1386,44 @@ export interface ApiQuotationQuotation extends Schema.CollectionType {
   };
 }
 
+export interface ApiUserProfileUserProfile extends Schema.CollectionType {
+  collectionName: 'user_profiles';
+  info: {
+    singularName: 'user-profile';
+    pluralName: 'user-profiles';
+    displayName: 'UserProfile';
+    description: '';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    profile: Attribute.Media;
+    signature: Attribute.Media;
+    address: Attribute.Text;
+    phone: Attribute.String;
+    user: Attribute.Relation<
+      'api::user-profile.user-profile',
+      'oneToOne',
+      'plugin::users-permissions.user'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::user-profile.user-profile',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::user-profile.user-profile',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
 declare module '@strapi/types' {
   export module Shared {
     export interface ContentTypes {
@@ -1361,12 +1448,14 @@ declare module '@strapi/types' {
       'api::company.company': ApiCompanyCompany;
       'api::contact-person.contact-person': ApiContactPersonContactPerson;
       'api::contact-type.contact-type': ApiContactTypeContactType;
+      'api::end-user.end-user': ApiEndUserEndUser;
       'api::invoice-detail.invoice-detail': ApiInvoiceDetailInvoiceDetail;
       'api::invoice-master.invoice-master': ApiInvoiceMasterInvoiceMaster;
       'api::journal-detail.journal-detail': ApiJournalDetailJournalDetail;
       'api::journal-master.journal-master': ApiJournalMasterJournalMaster;
       'api::organizational-position.organizational-position': ApiOrganizationalPositionOrganizationalPosition;
       'api::quotation.quotation': ApiQuotationQuotation;
+      'api::user-profile.user-profile': ApiUserProfileUserProfile;
     }
   }
 }

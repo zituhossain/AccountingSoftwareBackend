@@ -70,22 +70,6 @@
       "relation": "oneToOne",
       "target": "api::company.company"
     },
-    "image": {
-      "type": "media",
-      "multiple": false,
-      "required": false,
-      "allowedTypes": [
-        "images"
-      ]
-    },
-    "signature": {
-      "type": "media",
-      "multiple": false,
-      "required": false,
-      "allowedTypes": [
-        "images"
-      ]
-    },
     "organizational_position": {
       "type": "relation",
       "relation": "oneToOne",

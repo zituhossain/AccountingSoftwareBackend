@@ -44,7 +44,7 @@
     "status": {
       "type": "boolean"
     },
-    "business_contact": {
+    "client": {
       "type": "relation",
       "relation": "oneToOne",
       "target": "api::company.company"
