@@ -1368,6 +1368,7 @@ export interface ApiQuotationQuotation extends Schema.CollectionType {
     >;
     send_status: Attribute.Boolean & Attribute.DefaultTo<false>;
     revision_count: Attribute.Integer & Attribute.DefaultTo<0>;
+    date: Attribute.Date;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
