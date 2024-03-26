@@ -13,13 +13,11 @@
   "pluginOptions": {},
   "attributes": {
     "status": {
-      "type": "boolean"
+      "type": "boolean",
+      "default": true
     },
     "date": {
       "type": "datetime"
-    },
-    "title": {
-      "type": "string"
     },
     "subject": {
       "type": "string"
@@ -47,7 +45,7 @@
       "relation": "oneToOne",
       "target": "api::company.company"
     },
-    "business_contact": {
+    "client": {
       "type": "relation",
       "relation": "oneToOne",
       "target": "api::company.company"
@@ -56,6 +54,12 @@
       "type": "relation",
       "relation": "oneToOne",
       "target": "plugin::users-permissions.user"
+    },
+    "total_amount": {
+      "type": "decimal"
+    },
+    "invoice_no": {
+      "type": "string"
     }
   }
 }
