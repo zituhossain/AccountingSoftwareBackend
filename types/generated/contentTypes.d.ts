@@ -1158,8 +1158,9 @@ export interface ApiInvoiceMasterInvoiceMaster extends Schema.CollectionType {
     draftAndPublish: true;
   };
   attributes: {
-    status: Attribute.Boolean & Attribute.DefaultTo<true>;
+    status: Attribute.Boolean;
     date: Attribute.DateTime;
+    title: Attribute.String;
     subject: Attribute.String;
     remarks: Attribute.String;
     account_name: Attribute.String;
@@ -1172,7 +1173,7 @@ export interface ApiInvoiceMasterInvoiceMaster extends Schema.CollectionType {
       'oneToOne',
       'api::company.company'
     >;
-    client: Attribute.Relation<
+    business_contact: Attribute.Relation<
       'api::invoice-master.invoice-master',
       'oneToOne',
       'api::company.company'
@@ -1182,8 +1183,6 @@ export interface ApiInvoiceMasterInvoiceMaster extends Schema.CollectionType {
       'oneToOne',
       'plugin::users-permissions.user'
     >;
-    total_amount: Attribute.Decimal;
-    invoice_no: Attribute.String;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
