@@ -1,0 +1,18 @@
+{
+  "kind": "collectionType",
+  "collectionName": "mails",
+  "info": {
+    "singularName": "mail",
+    "pluralName": "mails",
+    "displayName": "mail"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "title": {
+      "type": "string"
+    }
+  }
+}

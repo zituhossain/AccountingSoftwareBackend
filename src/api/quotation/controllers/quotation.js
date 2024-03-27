@@ -1,9 +1,9 @@
-'use strict';
+"use strict";
 
 /**
  * quotation controller
  */
 
-const { createCoreController } = require('@strapi/strapi').factories;
+const { createCoreController } = require("@strapi/strapi").factories;
 
-module.exports = createCoreController('api::quotation.quotation');
+module.exports = createCoreController("api::quotation.quotation");

@@ -1,9 +1,9 @@
-'use strict';
+"use strict";
 
 /**
  * quotation router
  */
 
-const { createCoreRouter } = require('@strapi/strapi').factories;
+const { createCoreRouter } = require("@strapi/strapi").factories;
 
-module.exports = createCoreRouter('api::quotation.quotation');
+module.exports = createCoreRouter("api::quotation.quotation");
