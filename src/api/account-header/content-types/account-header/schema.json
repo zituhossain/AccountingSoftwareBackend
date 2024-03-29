@@ -31,11 +31,8 @@
       "relation": "oneToOne",
       "target": "plugin::users-permissions.user"
     },
-    "journal_details": {
-      "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::journal-detail.journal-detail",
-      "mappedBy": "accout_header"
+    "head_type": {
+      "type": "integer"
     }
   }
 }

@@ -12,12 +12,6 @@
   },
   "pluginOptions": {},
   "attributes": {
-    "accout_header": {
-      "type": "relation",
-      "relation": "manyToOne",
-      "target": "api::account-header.account-header",
-      "inversedBy": "journal_details"
-    },
     "debit_amount": {
       "type": "biginteger"
     },

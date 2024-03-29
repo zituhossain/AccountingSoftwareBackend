@@ -822,11 +822,7 @@ export interface ApiAccountHeaderAccountHeader extends Schema.CollectionType {
       'oneToOne',
       'plugin::users-permissions.user'
     >;
-    journal_details: Attribute.Relation<
-      'api::account-header.account-header',
-      'oneToMany',
-      'api::journal-detail.journal-detail'
-    >;
+    head_type: Attribute.Integer;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -1214,11 +1210,6 @@ export interface ApiJournalDetailJournalDetail extends Schema.CollectionType {
     draftAndPublish: true;
   };
   attributes: {
-    accout_header: Attribute.Relation<
-      'api::journal-detail.journal-detail',
-      'manyToOne',
-      'api::account-header.account-header'
-    >;
     debit_amount: Attribute.BigInteger;
     credit_amount: Attribute.BigInteger;
     notes: Attribute.Text;
@@ -1410,6 +1401,60 @@ export interface ApiQuotationQuotation extends Schema.CollectionType {
   };
 }
 
+export interface ApiTransactionTransaction extends Schema.CollectionType {
+  collectionName: 'transactions';
+  info: {
+    singularName: 'transaction';
+    pluralName: 'transactions';
+    displayName: 'transaction';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    account_headers: Attribute.Relation<
+      'api::transaction.transaction',
+      'oneToOne',
+      'api::account-header.account-header'
+    >;
+    company: Attribute.Relation<
+      'api::transaction.transaction',
+      'oneToOne',
+      'api::company.company'
+    >;
+    amount: Attribute.Decimal;
+    client: Attribute.Relation<
+      'api::transaction.transaction',
+      'oneToOne',
+      'api::company.company'
+    >;
+    payment_option: Attribute.Integer;
+    status: Attribute.Boolean & Attribute.DefaultTo<true>;
+    notes: Attribute.Text;
+    created_user: Attribute.Relation<
+      'api::transaction.transaction',
+      'oneToOne',
+      'plugin::users-permissions.user'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::transaction.transaction',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::transaction.transaction',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
 export interface ApiUserProfileUserProfile extends Schema.CollectionType {
   collectionName: 'user_profiles';
   info: {
@@ -1480,6 +1525,7 @@ declare module '@strapi/types' {
       'api::mail.mail': ApiMailMail;
       'api::organizational-position.organizational-position': ApiOrganizationalPositionOrganizationalPosition;
       'api::quotation.quotation': ApiQuotationQuotation;
+      'api::transaction.transaction': ApiTransactionTransaction;
       'api::user-profile.user-profile': ApiUserProfileUserProfile;
     }
   }
