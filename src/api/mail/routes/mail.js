@@ -17,5 +17,13 @@ module.exports = {
         policies: [],
       },
     },
+    {
+      method: "POST",
+      path: "/mails/invoice",
+      handler: "mail.sendInvoice",
+      config: {
+        policies: [],
+      },
+    },
   ],
 };
