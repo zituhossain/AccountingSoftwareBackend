@@ -1437,6 +1437,11 @@ export interface ApiTransactionTransaction extends Schema.CollectionType {
       'oneToOne',
       'plugin::users-permissions.user'
     >;
+    invoice_id: Attribute.Relation<
+      'api::transaction.transaction',
+      'oneToOne',
+      'api::invoice-master.invoice-master'
+    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
