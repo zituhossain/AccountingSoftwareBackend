@@ -2,6 +2,7 @@
 
 const nodemailer = require("nodemailer");
 const PdfPrinter = require("pdfmake");
+const Twilio = require("twilio");
 const fs = require("fs");
 const path = require("path");
 const getDocDefinitionQuotation = require("../services/quotationTemplate.js");
@@ -30,6 +31,12 @@ const transporter = nodemailer.createTransport({
   },
 });
 
+// Twilio transporter configuration
+const twilioClient = Twilio(
+  process.env.TWILIO_ACCOUNT_SID,
+  process.env.TWILIO_AUTH_TOKEN
+);
+
 module.exports = {
   async sendQuotation(ctx) {
     try {
@@ -47,9 +54,16 @@ module.exports = {
         return ctx.throw(400, "Client email address is missing.");
       }
 
+      const pdfFileName = `quotation-${id}.pdf`;
+      const pdfPath = path.join(
+        __dirname,
+        "../../../../public/pdf",
+        pdfFileName
+      );
+
       const docDefinition = getDocDefinitionQuotation(quotation); // Use the separate module to get docDefinition
       const pdfDoc = printer.createPdfKitDocument(docDefinition);
-      const pdfPath = path.resolve(__dirname, "../../public/pdf/quotation.pdf");
+      // const pdfPath = path.resolve(__dirname, "../../public/pdf/quotation.pdf");
       const stream = fs.createWriteStream(pdfPath);
 
       pdfDoc.pipe(stream);
@@ -60,6 +74,11 @@ module.exports = {
         stream.on("error", reject);
       });
 
+      // Construct the URL to access the PDF
+      const serverPublicUrl =
+        process.env.SERVER_PUBLIC_URL || "http://localhost:1337";
+      const pdfUrl = `${serverPublicUrl}/pdf/${pdfFileName}`;
+
       const mailOptions = {
         from: `"Top4 Logistics Ltd" <${process.env.MAIL_USERNAME}>`,
         to: quotation.client.email,
@@ -69,6 +88,13 @@ module.exports = {
       };
 
       await transporter.sendMail(mailOptions);
+
+      // Sending the PDF link via WhatsApp
+      await twilioClient.messages.create({
+        from: `whatsapp:${process.env.TWILIO_WHATSAPP_NUMBER}`,
+        to: `whatsapp:${quotation.client.phone}`, // Make sure the phone is in E.164 format
+        body: `Here is your quotation: ${pdfUrl}`,
+      });
 
       ctx.body = { message: "Quotation sent successfully!" };
     } catch (err) {
