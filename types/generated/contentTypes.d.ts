@@ -1442,6 +1442,7 @@ export interface ApiTransactionTransaction extends Schema.CollectionType {
       'oneToOne',
       'api::invoice-master.invoice-master'
     >;
+    image: Attribute.Media;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
