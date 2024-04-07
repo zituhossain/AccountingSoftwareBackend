@@ -22,8 +22,8 @@
       "relation": "oneToOne",
       "target": "api::company.company"
     },
-    "amount": {
-      "type": "decimal"
+    "total_amount": {
+      "type": "integer"
     },
     "client": {
       "type": "relation",
@@ -51,11 +51,18 @@
       "target": "api::invoice-master.invoice-master"
     },
     "image": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
       "allowedTypes": [
         "images"
-      ],
-      "type": "media",
-      "multiple": false
+      ]
+    },
+    "paid_amount": {
+      "type": "integer"
+    },
+    "due_amount": {
+      "type": "integer"
     }
   }
 }

@@ -1423,7 +1423,7 @@ export interface ApiTransactionTransaction extends Schema.CollectionType {
       'oneToOne',
       'api::company.company'
     >;
-    amount: Attribute.Decimal;
+    total_amount: Attribute.Integer;
     client: Attribute.Relation<
       'api::transaction.transaction',
       'oneToOne',
@@ -1443,6 +1443,8 @@ export interface ApiTransactionTransaction extends Schema.CollectionType {
       'api::invoice-master.invoice-master'
     >;
     image: Attribute.Media;
+    paid_amount: Attribute.Integer;
+    due_amount: Attribute.Integer;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;

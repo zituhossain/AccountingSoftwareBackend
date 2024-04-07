@@ -9,5 +9,14 @@ module.exports = {
         auth: false,
       },
     },
+    {
+      method: "GET",
+      path: "/transactions/sum-paid-amounts/:invoiceId",
+      handler: "transaction.sumPaidAmounts",
+      config: {
+        policies: [],
+        middlewares: [],
+      },
+    },
   ],
 };

@@ -36,7 +36,9 @@ module.exports = createCoreController(
           .select(
             "invoice_masters.invoice_no",
             "invoice_masters.subject",
-            "invoice_masters.date"
+            "invoice_masters.date",
+            "invoice_masters.total_amount",
+            "invoice_masters.id"
           );
 
         return (ctx.body = invoices.map((invoice) => ({
@@ -46,6 +48,30 @@ module.exports = createCoreController(
       } catch (err) {
         strapi.log.error("findInvoicesByClient error:", err);
         return ctx.internalServerError("Unable to fetch invoices");
+      }
+    },
+    async sumPaidAmounts(ctx) {
+      const { invoiceId } = ctx.params;
+
+      try {
+        const knex = strapi.db.connection;
+
+        // Calculate the sum of paid_amounts for the specified invoice ID
+        const result = await knex("transactions")
+          .join(
+            "transactions_invoice_id_links",
+            "transactions.id",
+            "=",
+            "transactions_invoice_id_links.transaction_id"
+          )
+          .where("transactions_invoice_id_links.invoice_master_id", invoiceId)
+          .sum("transactions.paid_amount as totalPaid")
+          .first();
+
+        return ctx.send({ totalPaid: result.totalPaid || 0 });
+      } catch (error) {
+        strapi.log.error("Failed to calculate sum of paid amounts:", error);
+        return ctx.badRequest("An error occurred during calculation.");
       }
     },
   })
