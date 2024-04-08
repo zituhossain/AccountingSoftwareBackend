@@ -8,18 +8,48 @@ function getDocDefinitionInvoice(data) {
     content: [
       // Header
       {
-        text: "Top-4 Logistics",
-        fontSize: 16,
-        bold: true,
-        margin: [0, 0, 0, 20],
-      },
-      {
-        stack: [
-          "9/31, F, Eastern Plaza, Hatirpul, Dhaka - 1205, Bangladesh",
-          "+8801852244141",
-          "top4we@gmail.com",
+        columns: [
+          {
+            // Logo on the left
+            image: path.join(
+              __dirname,
+              "../../../../public/uploads/output.png"
+            ), // Provide the correct path to your logo image
+            width: 50, // Adjust the width as necessary
+            height: 50, // Adjust the height as necessary
+          },
+          {
+            // Company Info Centered
+            width: "*",
+            stack: [
+              {
+                text: "Top-4 Logistics",
+                fontSize: 16,
+                bold: true,
+                alignment: "center",
+                color: "green",
+              },
+              {
+                text: "9/31, F, Eastern Plaza, Hatirpul, Dhaka - 1205, Bangladesh",
+                alignment: "center",
+              },
+              {
+                text: "+8801852244141",
+                alignment: "center",
+              },
+              {
+                text: "top4we@gmail.com",
+                alignment: "center",
+                margin: [0, 0, 0, 20], // Add space after the header
+              },
+            ],
+          },
+          {
+            // This empty column helps to center the middle column
+            width: 50, // Make this the same as the logo column width to maintain balance
+            text: "",
+          },
         ],
-        margin: [0, 0, 0, 20],
       },
 
       // Invoice details and Client details
@@ -110,7 +140,7 @@ function getDocDefinitionInvoice(data) {
       {
         stack: [
           "Thanking You",
-          "Joyes Elyas",
+          "Joyes Eleyas",
           "For: Top-4 Logistics",
           "Cell: +8801852244141",
         ],
