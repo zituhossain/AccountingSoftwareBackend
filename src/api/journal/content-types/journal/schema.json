@@ -1,0 +1,61 @@
+{
+  "kind": "collectionType",
+  "collectionName": "journals",
+  "info": {
+    "singularName": "journal",
+    "pluralName": "journals",
+    "displayName": "journal"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "date": {
+      "type": "datetime"
+    },
+    "description": {
+      "type": "text"
+    },
+    "reference": {
+      "type": "string"
+    },
+    "company": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::company.company"
+    },
+    "created_user": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "plugin::users-permissions.user"
+    },
+    "business_contact": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::b2b-relation.b2b-relation"
+    },
+    "debit_account": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::indivisual-account.indivisual-account"
+    },
+    "credit_account": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::indivisual-account.indivisual-account"
+    },
+    "amount": {
+      "type": "decimal"
+    },
+    "invoice": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::invoice-master.invoice-master"
+    },
+    "status": {
+      "type": "boolean",
+      "default": true
+    }
+  }
+}

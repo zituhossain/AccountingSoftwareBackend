@@ -797,6 +797,39 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
   };
 }
 
+export interface ApiAccountAccount extends Schema.CollectionType {
+  collectionName: 'accounts';
+  info: {
+    singularName: 'account';
+    pluralName: 'accounts';
+    displayName: 'account';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    name: Attribute.String & Attribute.Required;
+    description: Attribute.Text;
+    status: Attribute.Boolean & Attribute.DefaultTo<true>;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::account.account',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::account.account',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
 export interface ApiAccountHeaderAccountHeader extends Schema.CollectionType {
   collectionName: 'account_headers';
   info: {
@@ -1101,6 +1134,49 @@ export interface ApiEndUserEndUser extends Schema.CollectionType {
   };
 }
 
+export interface ApiIndivisualAccountIndivisualAccount
+  extends Schema.CollectionType {
+  collectionName: 'indivisual_accounts';
+  info: {
+    singularName: 'indivisual-account';
+    pluralName: 'indivisual-accounts';
+    displayName: 'indivisual_account';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    name: Attribute.String;
+    account: Attribute.Relation<
+      'api::indivisual-account.indivisual-account',
+      'oneToOne',
+      'api::account.account'
+    >;
+    sub_account: Attribute.Relation<
+      'api::indivisual-account.indivisual-account',
+      'oneToOne',
+      'api::sub-account.sub-account'
+    >;
+    description: Attribute.Text;
+    status: Attribute.Boolean & Attribute.DefaultTo<true>;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::indivisual-account.indivisual-account',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::indivisual-account.indivisual-account',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
 export interface ApiInvoiceDetailInvoiceDetail extends Schema.CollectionType {
   collectionName: 'invoice_details';
   info: {
@@ -1191,6 +1267,70 @@ export interface ApiInvoiceMasterInvoiceMaster extends Schema.CollectionType {
       Attribute.Private;
     updatedBy: Attribute.Relation<
       'api::invoice-master.invoice-master',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiJournalJournal extends Schema.CollectionType {
+  collectionName: 'journals';
+  info: {
+    singularName: 'journal';
+    pluralName: 'journals';
+    displayName: 'journal';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    date: Attribute.DateTime;
+    description: Attribute.Text;
+    reference: Attribute.String;
+    company: Attribute.Relation<
+      'api::journal.journal',
+      'oneToOne',
+      'api::company.company'
+    >;
+    created_user: Attribute.Relation<
+      'api::journal.journal',
+      'oneToOne',
+      'plugin::users-permissions.user'
+    >;
+    business_contact: Attribute.Relation<
+      'api::journal.journal',
+      'oneToOne',
+      'api::b2b-relation.b2b-relation'
+    >;
+    debit_account: Attribute.Relation<
+      'api::journal.journal',
+      'oneToOne',
+      'api::indivisual-account.indivisual-account'
+    >;
+    credit_account: Attribute.Relation<
+      'api::journal.journal',
+      'oneToOne',
+      'api::indivisual-account.indivisual-account'
+    >;
+    amount: Attribute.Decimal;
+    invoice: Attribute.Relation<
+      'api::journal.journal',
+      'oneToOne',
+      'api::invoice-master.invoice-master'
+    >;
+    status: Attribute.Boolean & Attribute.DefaultTo<true>;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::journal.journal',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::journal.journal',
       'oneToOne',
       'admin::user'
     > &
@@ -1401,6 +1541,39 @@ export interface ApiQuotationQuotation extends Schema.CollectionType {
   };
 }
 
+export interface ApiSubAccountSubAccount extends Schema.CollectionType {
+  collectionName: 'sub_accounts';
+  info: {
+    singularName: 'sub-account';
+    pluralName: 'sub-accounts';
+    displayName: 'sub_account';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    name: Attribute.String;
+    description: Attribute.Text;
+    status: Attribute.Boolean & Attribute.DefaultTo<true>;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::sub-account.sub-account',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::sub-account.sub-account',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
 export interface ApiTransactionTransaction extends Schema.CollectionType {
   collectionName: 'transactions';
   info: {
@@ -1519,6 +1692,7 @@ declare module '@strapi/types' {
       'plugin::users-permissions.permission': PluginUsersPermissionsPermission;
       'plugin::users-permissions.role': PluginUsersPermissionsRole;
       'plugin::users-permissions.user': PluginUsersPermissionsUser;
+      'api::account.account': ApiAccountAccount;
       'api::account-header.account-header': ApiAccountHeaderAccountHeader;
       'api::b2b-relation.b2b-relation': ApiB2BRelationB2BRelation;
       'api::b2b-relation-type.b2b-relation-type': ApiB2BRelationTypeB2BRelationType;
@@ -1526,13 +1700,16 @@ declare module '@strapi/types' {
       'api::contact-person.contact-person': ApiContactPersonContactPerson;
       'api::contact-type.contact-type': ApiContactTypeContactType;
       'api::end-user.end-user': ApiEndUserEndUser;
+      'api::indivisual-account.indivisual-account': ApiIndivisualAccountIndivisualAccount;
       'api::invoice-detail.invoice-detail': ApiInvoiceDetailInvoiceDetail;
       'api::invoice-master.invoice-master': ApiInvoiceMasterInvoiceMaster;
+      'api::journal.journal': ApiJournalJournal;
       'api::journal-detail.journal-detail': ApiJournalDetailJournalDetail;
       'api::journal-master.journal-master': ApiJournalMasterJournalMaster;
       'api::mail.mail': ApiMailMail;
       'api::organizational-position.organizational-position': ApiOrganizationalPositionOrganizationalPosition;
       'api::quotation.quotation': ApiQuotationQuotation;
+      'api::sub-account.sub-account': ApiSubAccountSubAccount;
       'api::transaction.transaction': ApiTransactionTransaction;
       'api::user-profile.user-profile': ApiUserProfileUserProfile;
     }
