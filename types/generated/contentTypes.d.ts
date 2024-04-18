@@ -1134,6 +1134,60 @@ export interface ApiEndUserEndUser extends Schema.CollectionType {
   };
 }
 
+export interface ApiIndividualAccountIndividualAccount
+  extends Schema.CollectionType {
+  collectionName: 'individual_accounts';
+  info: {
+    singularName: 'individual-account';
+    pluralName: 'individual-accounts';
+    displayName: 'individual_account';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    name: Attribute.String;
+    description: Attribute.Text;
+    account: Attribute.Relation<
+      'api::individual-account.individual-account',
+      'oneToOne',
+      'api::account.account'
+    >;
+    sub_account: Attribute.Relation<
+      'api::individual-account.individual-account',
+      'oneToOne',
+      'api::sub-account.sub-account'
+    >;
+    created_user: Attribute.Relation<
+      'api::individual-account.individual-account',
+      'oneToOne',
+      'plugin::users-permissions.user'
+    >;
+    company: Attribute.Relation<
+      'api::individual-account.individual-account',
+      'oneToOne',
+      'api::company.company'
+    >;
+    status: Attribute.Boolean & Attribute.DefaultTo<true>;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::individual-account.individual-account',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::individual-account.individual-account',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
 export interface ApiIndivisualAccountIndivisualAccount
   extends Schema.CollectionType {
   collectionName: 'indivisual_accounts';
@@ -1700,6 +1754,7 @@ declare module '@strapi/types' {
       'api::contact-person.contact-person': ApiContactPersonContactPerson;
       'api::contact-type.contact-type': ApiContactTypeContactType;
       'api::end-user.end-user': ApiEndUserEndUser;
+      'api::individual-account.individual-account': ApiIndividualAccountIndividualAccount;
       'api::indivisual-account.indivisual-account': ApiIndivisualAccountIndivisualAccount;
       'api::invoice-detail.invoice-detail': ApiInvoiceDetailInvoiceDetail;
       'api::invoice-master.invoice-master': ApiInvoiceMasterInvoiceMaster;
