@@ -4,7 +4,8 @@
   "info": {
     "singularName": "journal",
     "pluralName": "journals",
-    "displayName": "journal"
+    "displayName": "journal",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
@@ -30,20 +31,20 @@
       "relation": "oneToOne",
       "target": "plugin::users-permissions.user"
     },
-    "business_contact": {
+    "client": {
       "type": "relation",
       "relation": "oneToOne",
-      "target": "api::b2b-relation.b2b-relation"
+      "target": "api::company.company"
     },
     "debit_account": {
       "type": "relation",
       "relation": "oneToOne",
-      "target": "api::indivisual-account.indivisual-account"
+      "target": "api::individual-account.individual-account"
     },
     "credit_account": {
       "type": "relation",
       "relation": "oneToOne",
-      "target": "api::indivisual-account.indivisual-account"
+      "target": "api::individual-account.individual-account"
     },
     "amount": {
       "type": "decimal"

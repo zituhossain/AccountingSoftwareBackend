@@ -1189,49 +1189,6 @@ export interface ApiIndividualAccountIndividualAccount
   };
 }
 
-export interface ApiIndivisualAccountIndivisualAccount
-  extends Schema.CollectionType {
-  collectionName: 'indivisual_accounts';
-  info: {
-    singularName: 'indivisual-account';
-    pluralName: 'indivisual-accounts';
-    displayName: 'indivisual_account';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    name: Attribute.String;
-    account: Attribute.Relation<
-      'api::indivisual-account.indivisual-account',
-      'oneToOne',
-      'api::account.account'
-    >;
-    sub_account: Attribute.Relation<
-      'api::indivisual-account.indivisual-account',
-      'oneToOne',
-      'api::sub-account.sub-account'
-    >;
-    description: Attribute.Text;
-    status: Attribute.Boolean & Attribute.DefaultTo<true>;
-    createdAt: Attribute.DateTime;
-    updatedAt: Attribute.DateTime;
-    publishedAt: Attribute.DateTime;
-    createdBy: Attribute.Relation<
-      'api::indivisual-account.indivisual-account',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-    updatedBy: Attribute.Relation<
-      'api::indivisual-account.indivisual-account',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-  };
-}
-
 export interface ApiInvoiceDetailInvoiceDetail extends Schema.CollectionType {
   collectionName: 'invoice_details';
   info: {
@@ -1335,6 +1292,7 @@ export interface ApiJournalJournal extends Schema.CollectionType {
     singularName: 'journal';
     pluralName: 'journals';
     displayName: 'journal';
+    description: '';
   };
   options: {
     draftAndPublish: true;
@@ -1353,20 +1311,20 @@ export interface ApiJournalJournal extends Schema.CollectionType {
       'oneToOne',
       'plugin::users-permissions.user'
     >;
-    business_contact: Attribute.Relation<
+    client: Attribute.Relation<
       'api::journal.journal',
       'oneToOne',
-      'api::b2b-relation.b2b-relation'
+      'api::company.company'
     >;
     debit_account: Attribute.Relation<
       'api::journal.journal',
       'oneToOne',
-      'api::indivisual-account.indivisual-account'
+      'api::individual-account.individual-account'
     >;
     credit_account: Attribute.Relation<
       'api::journal.journal',
       'oneToOne',
-      'api::indivisual-account.indivisual-account'
+      'api::individual-account.individual-account'
     >;
     amount: Attribute.Decimal;
     invoice: Attribute.Relation<
@@ -1756,7 +1714,6 @@ declare module '@strapi/types' {
       'api::contact-type.contact-type': ApiContactTypeContactType;
       'api::end-user.end-user': ApiEndUserEndUser;
       'api::individual-account.individual-account': ApiIndividualAccountIndividualAccount;
-      'api::indivisual-account.indivisual-account': ApiIndivisualAccountIndivisualAccount;
       'api::invoice-detail.invoice-detail': ApiInvoiceDetailInvoiceDetail;
       'api::invoice-master.invoice-master': ApiInvoiceMasterInvoiceMaster;
       'api::journal.journal': ApiJournalJournal;
