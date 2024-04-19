@@ -41,6 +41,9 @@
     "status": {
       "type": "boolean",
       "default": true
+    },
+    "short_name": {
+      "type": "string"
     }
   }
 }

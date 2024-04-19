@@ -1170,6 +1170,7 @@ export interface ApiIndividualAccountIndividualAccount
       'api::company.company'
     >;
     status: Attribute.Boolean & Attribute.DefaultTo<true>;
+    short_name: Attribute.String;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
