@@ -4,6 +4,7 @@ const nodemailer = require("nodemailer");
 const PdfPrinter = require("pdfmake");
 const fs = require("fs");
 const path = require("path");
+const https = require("https");
 const getDocDefinitionQuotation = require("../services/quotationTemplate.js");
 const getDocDefinitionInvoice = require("../services/invoiceTemplate.js");
 
@@ -30,53 +31,160 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-module.exports = {
-  async sendQuotation(ctx) {
-    try {
-      const { id } = ctx.request.body;
+async function sendWhatsAppMessage(phoneNumber, documentUrl, filename) {
+  const postData = JSON.stringify({
+    messaging_product: "whatsapp",
+    to: phoneNumber,
+    type: "document",
+    document: {
+      link: documentUrl,
+      filename: filename,
+    },
+  });
 
-      const quotation = await strapi.entityService.findOne(
-        "api::quotation.quotation",
-        id,
-        {
-          populate: { client: true },
-        }
-      );
+  const options = {
+    hostname: "graph.facebook.com",
+    port: 443,
+    path: `/${process.env.WHATSAPP_API_VERSION}/${process.env.WHATSAPP_PHONE_NUMBER_ID}/messages`,
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${process.env.WHATSAPP_ACCESS_TOKEN}`,
+      "Content-Length": Buffer.byteLength(postData),
+    },
+  };
 
-      if (!quotation.client.email) {
-        return ctx.throw(400, "Client email address is missing.");
-      }
-
-      const docDefinition = getDocDefinitionQuotation(quotation); // Use the separate module to get docDefinition
-      const pdfDoc = printer.createPdfKitDocument(docDefinition);
-      const pdfPath = path.resolve(__dirname, "../../public/pdf/quotation.pdf");
-      const stream = fs.createWriteStream(pdfPath);
-
-      pdfDoc.pipe(stream);
-      pdfDoc.end();
-
-      await new Promise((resolve, reject) => {
-        stream.on("finish", () => resolve());
-        stream.on("error", reject);
+  return new Promise((resolve, reject) => {
+    const req = https.request(options, (res) => {
+      let data = "";
+      res.on("data", (chunk) => {
+        data += chunk;
       });
+      res.on("end", () => {
+        resolve(JSON.parse(data));
+      });
+    });
 
-      const mailOptions = {
-        from: `"Top4 Logistics Ltd" <${process.env.MAIL_USERNAME}>`,
-        to: quotation.client.email,
-        subject: "Quotation",
-        text: "Here is your quotation.",
-        attachments: [{ filename: "quotation.pdf", path: pdfPath }],
-      };
+    req.on("error", (e) => {
+      reject(e);
+    });
 
-      await transporter.sendMail(mailOptions);
+    req.write(postData);
+    req.end();
+  });
+}
 
-      ctx.body = { message: "Quotation sent successfully!" };
-    } catch (err) {
-      console.error("Error in sendQuotation controller:", err);
-      ctx.throw(500, "Error sending quotation");
+module.exports = {
+  // async sendQuotation(ctx) {
+  //   try {
+  //     const { id } = ctx.request.body;
+
+  //     const quotation = await strapi.entityService.findOne(
+  //       "api::quotation.quotation",
+  //       id,
+  //       {
+  //         populate: { client: true },
+  //       }
+  //     );
+
+  //     if (!quotation.client.email) {
+  //       return ctx.throw(400, "Client email address is missing.");
+  //     }
+
+  //     const docDefinition = getDocDefinitionQuotation(quotation); // Use the separate module to get docDefinition
+  //     const pdfDoc = printer.createPdfKitDocument(docDefinition);
+  //     const pdfFilename = `quotation-${id}.pdf`;
+  //     const pdfPath = path.resolve(
+  //       __dirname,
+  //       "../../../../public/pdf/quotation.pdf"
+  //     );
+  //     const stream = fs.createWriteStream(pdfPath);
+
+  //     pdfDoc.pipe(stream);
+  //     pdfDoc.end();
+
+  //     await new Promise((resolve, reject) => {
+  //       stream.on("finish", () => resolve());
+  //       stream.on("error", reject);
+  //     });
+
+  //     const mailOptions = {
+  //       from: `"Top4 Logistics Ltd" <${process.env.MAIL_USERNAME}>`,
+  //       to: quotation.client.email,
+  //       subject: "Quotation",
+  //       text: "Here is your quotation.",
+  //       attachments: [{ filename: pdfFilename, path: pdfPath }],
+  //     };
+
+  //     await transporter.sendMail(mailOptions);
+
+  //     ctx.body = { message: "Quotation sent successfully!" };
+  //   } catch (err) {
+  //     console.error("Error in sendQuotation controller:", err);
+  //     ctx.throw(500, "Error sending quotation");
+  //   }
+  // },
+
+  async sendQuotation(ctx) {
+    const { id } = ctx.request.body;
+    const quotation = await strapi.entityService.findOne(
+      "api::quotation.quotation",
+      id,
+      {
+        populate: { client: true },
+      }
+    );
+
+    if (!quotation.client.email) {
+      return ctx.throw(400, "Client email address is missing.");
     }
-  },
 
+    const docDefinition = getDocDefinitionQuotation(quotation);
+    const pdfDoc = printer.createPdfKitDocument(docDefinition);
+    const pdfFilename = `quotation-${id}.pdf`;
+    const pdfPath = path.resolve(
+      __dirname,
+      "../../../../public/pdf/quotation.pdf"
+    );
+    const stream = fs.createWriteStream(pdfPath);
+
+    pdfDoc.pipe(stream);
+    pdfDoc.end();
+
+    await new Promise((resolve, reject) => {
+      stream.on("finish", async () => {
+        // Email sending logic
+        const mailOptions = {
+          from: `"Top4 Logistics Ltd" <${process.env.MAIL_USERNAME}>`,
+          to: quotation.client.email,
+          subject: "Quotation",
+          text: "Here is your quotation.",
+          attachments: [{ filename: pdfFilename, path: pdfPath }],
+        };
+        await transporter.sendMail(mailOptions);
+
+        // WhatsApp sending logic
+        const publicPdfUrl = `http://localhost:1337/pdf/${pdfFilename}`; // Make sure to replace this with your actual domain
+        try {
+          await sendWhatsAppMessage(
+            quotation.client.phoneNumber,
+            publicPdfUrl,
+            pdfFilename
+          );
+          ctx.body = {
+            message: "Quotation sent successfully via Email and WhatsApp!",
+          };
+        } catch (whatsappError) {
+          console.error("Error sending quotation via WhatsApp:", whatsappError);
+          ctx.throw(500, "Error sending quotation via WhatsApp");
+        }
+        resolve();
+      });
+      stream.on("error", (error) => {
+        reject(error);
+      });
+    });
+  },
   async sendInvoice(ctx) {
     try {
       // Assuming you have the invoice ID in the request body similar to the quotation ID
