@@ -12,10 +12,10 @@
   },
   "pluginOptions": {},
   "attributes": {
-    "account_headers": {
+    "account_header": {
       "type": "relation",
       "relation": "oneToOne",
-      "target": "api::account-header.account-header"
+      "target": "api::individual-account.individual-account"
     },
     "company": {
       "type": "relation",

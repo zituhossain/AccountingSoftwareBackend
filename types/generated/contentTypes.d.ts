@@ -1599,10 +1599,10 @@ export interface ApiTransactionTransaction extends Schema.CollectionType {
     draftAndPublish: true;
   };
   attributes: {
-    account_headers: Attribute.Relation<
+    account_header: Attribute.Relation<
       'api::transaction.transaction',
       'oneToOne',
-      'api::account-header.account-header'
+      'api::individual-account.individual-account'
     >;
     company: Attribute.Relation<
       'api::transaction.transaction',
