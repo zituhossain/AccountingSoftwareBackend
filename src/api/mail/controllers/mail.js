@@ -144,7 +144,7 @@ module.exports = {
     const pdfFilename = `quotation-${id}.pdf`;
     const pdfPath = path.resolve(
       __dirname,
-      "../../../../public/pdf/quotation.pdf"
+      `../../../../public/pdf/quotation-${id}.pdf`
     );
     const stream = fs.createWriteStream(pdfPath);
 
@@ -164,10 +164,12 @@ module.exports = {
         await transporter.sendMail(mailOptions);
 
         // WhatsApp sending logic
-        const publicPdfUrl = `http://localhost:1337/pdf/${pdfFilename}`; // Make sure to replace this with your actual domain
+        // const publicPdfUrl = `http://localhost:1337/pdf/${pdfFilename}`;
+        const publicPdfUrl = `https://www.bauer.uh.edu/rsusmel/7386/ln1.pdf`;
+
         try {
           await sendWhatsAppMessage(
-            quotation.client.phoneNumber,
+            quotation.client?.phone,
             publicPdfUrl,
             pdfFilename
           );
