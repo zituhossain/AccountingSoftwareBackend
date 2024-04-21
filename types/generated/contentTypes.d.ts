@@ -1333,6 +1333,11 @@ export interface ApiJournalJournal extends Schema.CollectionType {
       'api::invoice-master.invoice-master'
     >;
     status: Attribute.Boolean & Attribute.DefaultTo<true>;
+    quotation: Attribute.Relation<
+      'api::journal.journal',
+      'oneToOne',
+      'api::quotation.quotation'
+    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
