@@ -47,7 +47,7 @@
     "client": {
       "type": "relation",
       "relation": "oneToOne",
-      "target": "api::b2b-relation.b2b-relation"
+      "target": "api::company.company"
     },
     "company": {
       "type": "relation",

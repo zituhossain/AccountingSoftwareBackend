@@ -1259,7 +1259,7 @@ export interface ApiInvoiceMasterInvoiceMaster extends Schema.CollectionType {
     client: Attribute.Relation<
       'api::invoice-master.invoice-master',
       'oneToOne',
-      'api::b2b-relation.b2b-relation'
+      'api::company.company'
     >;
     created_user: Attribute.Relation<
       'api::invoice-master.invoice-master',
@@ -1314,7 +1314,7 @@ export interface ApiJournalJournal extends Schema.CollectionType {
     client: Attribute.Relation<
       'api::journal.journal',
       'oneToOne',
-      'api::b2b-relation.b2b-relation'
+      'api::company.company'
     >;
     debit_account: Attribute.Relation<
       'api::journal.journal',
@@ -1526,7 +1526,7 @@ export interface ApiQuotationQuotation extends Schema.CollectionType {
     client: Attribute.Relation<
       'api::quotation.quotation',
       'oneToOne',
-      'api::b2b-relation.b2b-relation'
+      'api::company.company'
     >;
     company: Attribute.Relation<
       'api::quotation.quotation',
