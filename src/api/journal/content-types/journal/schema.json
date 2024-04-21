@@ -34,7 +34,7 @@
     "client": {
       "type": "relation",
       "relation": "oneToOne",
-      "target": "api::company.company"
+      "target": "api::b2b-relation.b2b-relation"
     },
     "debit_account": {
       "type": "relation",
