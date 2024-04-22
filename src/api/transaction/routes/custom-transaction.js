@@ -10,6 +10,15 @@ module.exports = {
       },
     },
     {
+      // Custom route for finding invoices by client
+      method: "GET",
+      path: "/transactions/quotationsByClient/:clientId",
+      handler: "transaction.findQuotationsByClient",
+      config: {
+        auth: false,
+      },
+    },
+    {
       method: "GET",
       path: "/transactions/sum-paid-amounts/:invoiceId",
       handler: "transaction.sumPaidAmounts",

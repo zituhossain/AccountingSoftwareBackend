@@ -50,6 +50,49 @@ module.exports = createCoreController(
         return ctx.internalServerError("Unable to fetch invoices");
       }
     },
+
+    async findQuotationsByClient(ctx) {
+      const { clientId } = ctx.params;
+
+      if (!clientId) {
+        return ctx.badRequest("Client ID is missing");
+      }
+
+      try {
+        const knex = strapi.db.connection; // Accessing the knex instance directly
+
+        const quotations = await knex("quotations")
+          .join(
+            "quotations_client_links",
+            "quotations.id",
+            "=",
+            "quotations_client_links.quotation_id"
+          )
+          .join(
+            "companies",
+            "quotations_client_links.company_id",
+            "=",
+            "companies.id"
+          )
+          .where("companies.id", clientId)
+          .select(
+            "quotations.quotation_no",
+            "quotations.subject",
+            "quotations.date",
+            "quotations.client_rate",
+            "quotations.id"
+          );
+
+        return (ctx.body = quotations.map((quotation) => ({
+          ...quotation,
+          date: quotation.date ? new Date(quotation.date).toISOString() : null, // Formatting the date
+        })));
+      } catch (err) {
+        strapi.log.error("findQuotationsByClient error:", err);
+        return ctx.internalServerError("Unable to fetch quotations");
+      }
+    },
+
     async sumPaidAmounts(ctx) {
       const { invoiceId } = ctx.params;
 
