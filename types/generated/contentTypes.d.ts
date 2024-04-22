@@ -1338,6 +1338,11 @@ export interface ApiJournalJournal extends Schema.CollectionType {
       'oneToOne',
       'api::quotation.quotation'
     >;
+    employee: Attribute.Relation<
+      'api::journal.journal',
+      'oneToOne',
+      'plugin::users-permissions.user'
+    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -1636,6 +1641,16 @@ export interface ApiTransactionTransaction extends Schema.CollectionType {
     image: Attribute.Media;
     paid_amount: Attribute.Integer;
     due_amount: Attribute.Integer;
+    quotation: Attribute.Relation<
+      'api::transaction.transaction',
+      'oneToOne',
+      'api::quotation.quotation'
+    >;
+    employee: Attribute.Relation<
+      'api::transaction.transaction',
+      'oneToOne',
+      'plugin::users-permissions.user'
+    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
