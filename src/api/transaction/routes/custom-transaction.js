@@ -20,8 +20,17 @@ module.exports = {
     },
     {
       method: "GET",
-      path: "/transactions/sum-paid-amounts/:invoiceId",
-      handler: "transaction.sumPaidAmounts",
+      path: "/transactions/sum-paid-amounts-invoice/:invoiceId",
+      handler: "transaction.sumPaidAmountsInvoice",
+      config: {
+        policies: [],
+        middlewares: [],
+      },
+    },
+    {
+      method: "GET",
+      path: "/transactions/sum-paid-amounts-quotation/:quotationId",
+      handler: "transaction.sumPaidAmountsQuotation",
       config: {
         policies: [],
         middlewares: [],

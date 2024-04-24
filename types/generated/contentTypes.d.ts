@@ -830,50 +830,6 @@ export interface ApiAccountAccount extends Schema.CollectionType {
   };
 }
 
-export interface ApiAccountHeaderAccountHeader extends Schema.CollectionType {
-  collectionName: 'account_headers';
-  info: {
-    singularName: 'account-header';
-    pluralName: 'account-headers';
-    displayName: 'Account_headers';
-    description: '';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    head_title: Attribute.String;
-    description: Attribute.Text;
-    status: Attribute.Boolean;
-    company: Attribute.Relation<
-      'api::account-header.account-header',
-      'oneToOne',
-      'api::company.company'
-    >;
-    created_user: Attribute.Relation<
-      'api::account-header.account-header',
-      'oneToOne',
-      'plugin::users-permissions.user'
-    >;
-    head_type: Attribute.Integer;
-    createdAt: Attribute.DateTime;
-    updatedAt: Attribute.DateTime;
-    publishedAt: Attribute.DateTime;
-    createdBy: Attribute.Relation<
-      'api::account-header.account-header',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-    updatedBy: Attribute.Relation<
-      'api::account-header.account-header',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-  };
-}
-
 export interface ApiB2BRelationB2BRelation extends Schema.CollectionType {
   collectionName: 'b2b_relations';
   info: {
@@ -1076,57 +1032,6 @@ export interface ApiContactTypeContactType extends Schema.CollectionType {
       Attribute.Private;
     updatedBy: Attribute.Relation<
       'api::contact-type.contact-type',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-  };
-}
-
-export interface ApiEndUserEndUser extends Schema.CollectionType {
-  collectionName: 'end_users';
-  info: {
-    singularName: 'end-user';
-    pluralName: 'end-users';
-    displayName: 'EndUser';
-    description: '';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    username: Attribute.String;
-    email: Attribute.Email;
-    password: Attribute.Password;
-    profile: Attribute.Media;
-    signature: Attribute.Media;
-    confirmed: Attribute.Boolean & Attribute.DefaultTo<true>;
-    end_user: Attribute.Relation<
-      'api::end-user.end-user',
-      'oneToOne',
-      'api::end-user.end-user'
-    >;
-    company: Attribute.Relation<
-      'api::end-user.end-user',
-      'oneToOne',
-      'api::company.company'
-    >;
-    organizational_position: Attribute.Relation<
-      'api::end-user.end-user',
-      'oneToOne',
-      'api::organizational-position.organizational-position'
-    >;
-    createdAt: Attribute.DateTime;
-    updatedAt: Attribute.DateTime;
-    publishedAt: Attribute.DateTime;
-    createdBy: Attribute.Relation<
-      'api::end-user.end-user',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-    updatedBy: Attribute.Relation<
-      'api::end-user.end-user',
       'oneToOne',
       'admin::user'
     > &
@@ -1354,95 +1259,6 @@ export interface ApiJournalJournal extends Schema.CollectionType {
       Attribute.Private;
     updatedBy: Attribute.Relation<
       'api::journal.journal',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-  };
-}
-
-export interface ApiJournalDetailJournalDetail extends Schema.CollectionType {
-  collectionName: 'journal_details';
-  info: {
-    singularName: 'journal-detail';
-    pluralName: 'journal-details';
-    displayName: 'Journal_details';
-    description: '';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    debit_amount: Attribute.BigInteger;
-    credit_amount: Attribute.BigInteger;
-    notes: Attribute.Text;
-    status: Attribute.Boolean;
-    journal_master: Attribute.Relation<
-      'api::journal-detail.journal-detail',
-      'manyToOne',
-      'api::journal-master.journal-master'
-    >;
-    sub_head: Attribute.Relation<
-      'api::journal-detail.journal-detail',
-      'oneToOne',
-      'api::company.company'
-    >;
-    createdAt: Attribute.DateTime;
-    updatedAt: Attribute.DateTime;
-    publishedAt: Attribute.DateTime;
-    createdBy: Attribute.Relation<
-      'api::journal-detail.journal-detail',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-    updatedBy: Attribute.Relation<
-      'api::journal-detail.journal-detail',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-  };
-}
-
-export interface ApiJournalMasterJournalMaster extends Schema.CollectionType {
-  collectionName: 'journal_masters';
-  info: {
-    singularName: 'journal-master';
-    pluralName: 'journal-masters';
-    displayName: 'Journal_master';
-    description: '';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    journal_no: Attribute.String;
-    date: Attribute.DateTime;
-    journal_details: Attribute.Relation<
-      'api::journal-master.journal-master',
-      'oneToMany',
-      'api::journal-detail.journal-detail'
-    >;
-    company: Attribute.Relation<
-      'api::journal-master.journal-master',
-      'oneToOne',
-      'api::company.company'
-    >;
-    total_debit_amount: Attribute.Decimal;
-    total_credit_amount: Attribute.Decimal;
-    status: Attribute.Boolean & Attribute.DefaultTo<true>;
-    createdAt: Attribute.DateTime;
-    updatedAt: Attribute.DateTime;
-    publishedAt: Attribute.DateTime;
-    createdBy: Attribute.Relation<
-      'api::journal-master.journal-master',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-    updatedBy: Attribute.Relation<
-      'api::journal-master.journal-master',
       'oneToOne',
       'admin::user'
     > &
@@ -1726,19 +1542,15 @@ declare module '@strapi/types' {
       'plugin::users-permissions.role': PluginUsersPermissionsRole;
       'plugin::users-permissions.user': PluginUsersPermissionsUser;
       'api::account.account': ApiAccountAccount;
-      'api::account-header.account-header': ApiAccountHeaderAccountHeader;
       'api::b2b-relation.b2b-relation': ApiB2BRelationB2BRelation;
       'api::b2b-relation-type.b2b-relation-type': ApiB2BRelationTypeB2BRelationType;
       'api::company.company': ApiCompanyCompany;
       'api::contact-person.contact-person': ApiContactPersonContactPerson;
       'api::contact-type.contact-type': ApiContactTypeContactType;
-      'api::end-user.end-user': ApiEndUserEndUser;
       'api::individual-account.individual-account': ApiIndividualAccountIndividualAccount;
       'api::invoice-detail.invoice-detail': ApiInvoiceDetailInvoiceDetail;
       'api::invoice-master.invoice-master': ApiInvoiceMasterInvoiceMaster;
       'api::journal.journal': ApiJournalJournal;
-      'api::journal-detail.journal-detail': ApiJournalDetailJournalDetail;
-      'api::journal-master.journal-master': ApiJournalMasterJournalMaster;
       'api::mail.mail': ApiMailMail;
       'api::organizational-position.organizational-position': ApiOrganizationalPositionOrganizationalPosition;
       'api::quotation.quotation': ApiQuotationQuotation;

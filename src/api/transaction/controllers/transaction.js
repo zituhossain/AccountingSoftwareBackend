@@ -93,7 +93,7 @@ module.exports = createCoreController(
       }
     },
 
-    async sumPaidAmounts(ctx) {
+    async sumPaidAmountsInvoice(ctx) {
       const { invoiceId } = ctx.params;
 
       try {
@@ -108,6 +108,30 @@ module.exports = createCoreController(
             "transactions_invoice_id_links.transaction_id"
           )
           .where("transactions_invoice_id_links.invoice_master_id", invoiceId)
+          .sum("transactions.paid_amount as totalPaid")
+          .first();
+
+        return ctx.send({ totalPaid: result.totalPaid || 0 });
+      } catch (error) {
+        strapi.log.error("Failed to calculate sum of paid amounts:", error);
+        return ctx.badRequest("An error occurred during calculation.");
+      }
+    },
+    async sumPaidAmountsQuotation(ctx) {
+      const { quotationId } = ctx.params;
+
+      try {
+        const knex = strapi.db.connection;
+
+        // Calculate the sum of paid_amounts for the specified invoice ID
+        const result = await knex("transactions")
+          .join(
+            "transactions_quotation_links",
+            "transactions.id",
+            "=",
+            "transactions_quotation_links.transaction_id"
+          )
+          .where("transactions_quotation_links.quotation_id", quotationId)
           .sum("transactions.paid_amount as totalPaid")
           .first();
 
