@@ -1,8 +1,10 @@
 const path = require("path");
+const formatDate = require("./utils/dateUtils.js");
+
 function getDocDefinitionInvoice(data) {
   // Extract invoice master and details data from the single argument
   const invoiceMaster = data;
-  const invoiceDetailsData = data.details; // Assuming 'details' is the key for invoice details
+  const invoiceDetailsData = data.details;
 
   return {
     content: [
@@ -14,9 +16,9 @@ function getDocDefinitionInvoice(data) {
             image: path.join(
               __dirname,
               "../../../../public/uploads/output.png"
-            ), // Provide the correct path to your logo image
-            width: 50, // Adjust the width as necessary
-            height: 50, // Adjust the height as necessary
+            ),
+            width: 50,
+            height: 50,
           },
           {
             // Company Info Centered
@@ -63,8 +65,14 @@ function getDocDefinitionInvoice(data) {
               {
                 text: `Invoice No: #${invoiceMaster.invoice_no}`,
                 margin: [0, 5],
-              }, // Adjust based on your data structure
-              { text: `Date Issued: ${invoiceMaster.date}`, margin: [0, 5] }, // Adjust based on your data structure
+              },
+              {
+                text: `Date Issued: ${formatDate(
+                  invoiceMaster.date,
+                  "DD-MM-YYYY"
+                )}`,
+                margin: [0, 5],
+              },
             ],
           },
           {
@@ -77,14 +85,14 @@ function getDocDefinitionInvoice(data) {
                 fontSize: 14,
                 alignment: "right",
               },
-              { text: `${invoiceMaster.client.name}`, alignment: "right" }, // Adjust based on your data structure
-              { text: `${invoiceMaster.client.address}`, alignment: "right" }, // Adjust based on your data structure
-              { text: `${invoiceMaster.client.email}`, alignment: "right" }, // Adjust based on your data structure
+              { text: `${invoiceMaster.client.name}`, alignment: "right" },
+              { text: `${invoiceMaster.client.address}`, alignment: "right" },
+              { text: `${invoiceMaster.client.email}`, alignment: "right" },
               {
                 text: `${invoiceMaster.client.phone}`,
                 alignment: "right",
                 margin: [0, 0, 0, 20],
-              }, // Adjust based on your data structure
+              },
             ],
           },
         ],
@@ -129,8 +137,8 @@ function getDocDefinitionInvoice(data) {
               {},
               {},
               {},
-              {}, // Empty cells filling the colSpan
-              { text: `${invoiceMaster.total_amount}`, style: "tableHeader" }, // This is where the total amount goes
+              {},
+              { text: `${invoiceMaster.total_amount}`, style: "tableHeader" },
             ],
           ],
         },

@@ -1,62 +1,120 @@
 const path = require("path");
+const formatDate = require("./utils/dateUtils.js");
 
-// You can pass more parameters to this function if needed, to customize the PDF content
 function getDocDefinition(quotation) {
+  // const quotation = quotation;
   return {
     content: [
       // Header
       {
-        text: "Top-4 Logistics",
-        fontSize: 16,
-        bold: true,
-        margin: [0, 0, 0, 20],
-      },
-      {
-        stack: [
-          "9/31, F, Eastern Plaza, Hatirpul, Dhaka - 1205, Bangladesh",
-          "+8801852244141",
-          "top4we@gmail.com",
+        columns: [
+          {
+            // Logo on the left
+            image: path.join(
+              __dirname,
+              "../../../../public/uploads/output.png"
+            ), // Provide the correct path to your logo image
+            width: 50,
+            height: 50,
+          },
+          {
+            // Company Info Centered
+            width: "*",
+            stack: [
+              {
+                text: "Top-4 Logistics",
+                fontSize: 16,
+                bold: true,
+                alignment: "center",
+                color: "green",
+              },
+              {
+                text: "9/31, F, Eastern Plaza, Hatirpul, Dhaka - 1205, Bangladesh",
+                alignment: "center",
+              },
+              {
+                text: "+8801852244141",
+                alignment: "center",
+              },
+              {
+                text: "top4we@gmail.com",
+                alignment: "center",
+                margin: [0, 0, 0, 20], // Add space after the header
+              },
+            ],
+          },
+          {
+            // This empty column helps to center the middle column
+            width: 50,
+            text: "",
+          },
         ],
-        // Apply margin here for the whole stack
-        margin: [0, 0, 0, 20],
       },
 
       // Quotation details
       {
-        text: `Quotation No: #${quotation.quotation_no}`,
-        bold: true,
-        margin: [0, 0, 0, 10],
-      },
-      {
-        text: `Date Issued: ${quotation.date}`,
-        margin: [0, 0, 0, 40],
-      },
-
-      // Client details
-      {
-        text: "Quotation To:",
-        fontSize: 14,
-        bold: true,
-        margin: [0, 0, 0, 10],
-      },
-      {
-        stack: [
-          `${quotation.client.name}`,
-          `${quotation.client.address}`,
-          `${quotation.client.email}`,
-          `${quotation.client.phone}`,
+        columns: [
+          {
+            // Left column for Quotation details
+            width: "auto",
+            stack: [
+              { text: "Quotation", bold: true, fontSize: 14 },
+              {
+                text: `Quotation No: #${quotation.quotation_no}`,
+                margin: [0, 5],
+              },
+              {
+                text: `Date Issued: ${formatDate(
+                  quotation.date,
+                  "DD-MM-YYYY"
+                )}`,
+                margin: [0, 5],
+              },
+            ],
+          },
+          {
+            // Right column for Client details
+            width: "*",
+            stack: [
+              {
+                text: "Quotation To:",
+                bold: true,
+                fontSize: 14,
+                alignment: "right",
+              },
+              { text: `${quotation.client.name}`, alignment: "right" },
+              { text: `${quotation.client.address}`, alignment: "right" },
+              { text: `${quotation.client.email}`, alignment: "right" },
+              {
+                text: `${quotation.client.phone}`,
+                alignment: "right",
+                margin: [0, 0, 0, 20],
+              },
+            ],
+          },
         ],
-        // Apply margin here for the whole stack
-        margin: [0, 0, 0, 40],
       },
 
-      // Quotation table
+      // Divider line
       {
-        style: "tableExample",
+        canvas: [{ type: "line", x1: 0, y1: 5, x2: 515, y2: 5, lineWidth: 2 }],
+      },
+      { text: "", style: "header", margin: [0, 20, 0, 10] },
+
+      // Quotation items table
+      {
+        style: "itemsTable",
         table: {
-          widths: [100, "*", "*", "*", "*"],
+          headerRows: 1,
+          widths: ["*", "*", "*", "*", "*"],
           body: [
-            ["Item", "Client Rate", "Our Rate", "No. of Items", "Overweight"],
+            [
+              { text: "Item", style: "tableHeader" },
+              { text: "Client Rate", style: "tableHeader" },
+              { text: "Our Rate", style: "tableHeader" },
+              { text: "No. of Items", style: "tableHeader" },
+              { text: "Overweight", style: "tableHeader" },
+            ],
             [
               "1",
               quotation.client_rate,
@@ -66,25 +124,35 @@ function getDocDefinition(quotation) {
             ],
           ],
         },
-        layout: "lightHorizontalLines",
       },
 
       // Footer
       {
-        text: "Thanking You",
-        fontSize: 16,
-        bold: true,
-        margin: [0, 40, 0, 20],
-      },
-      {
-        stack: ["Joyes Elyas", "For: Top-4 Logistics", "Cell: +8801852244141"],
-        // Apply margin here for the whole stack
-        margin: [0, 0, 0, 10],
+        stack: [
+          "Thanking You",
+          "Joyes Eleyas",
+          "For: Top-4 Logistics",
+          "Cell: +8801852244141",
+        ],
+        style: "footer",
       },
     ],
     styles: {
-      tableExample: {
-        margin: [0, 5, 0, 35],
+      header: {
+        fontSize: 14,
+        bold: true,
+      },
+      tableHeader: {
+        bold: true,
+        fontSize: 13,
+        color: "black",
+      },
+      itemsTable: {
+        margin: [0, 5, 0, 15],
+      },
+      footer: {
+        alignment: "center",
+        margin: [0, 20, 0, 0],
       },
     },
   };
