@@ -1288,6 +1288,45 @@ export interface ApiMailMail extends Schema.CollectionType {
   };
 }
 
+export interface ApiMeetingMeeting extends Schema.CollectionType {
+  collectionName: 'meetings';
+  info: {
+    singularName: 'meeting';
+    pluralName: 'meetings';
+    displayName: 'Meeting';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    title: Attribute.String;
+    date: Attribute.DateTime;
+    meeting_link: Attribute.String;
+    description: Attribute.Text;
+    created_user: Attribute.Relation<
+      'api::meeting.meeting',
+      'oneToOne',
+      'plugin::users-permissions.user'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::meeting.meeting',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::meeting.meeting',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
 export interface ApiOrganizationalPositionOrganizationalPosition
   extends Schema.CollectionType {
   collectionName: 'organizational_positions';
@@ -1552,6 +1591,7 @@ declare module '@strapi/types' {
       'api::invoice-master.invoice-master': ApiInvoiceMasterInvoiceMaster;
       'api::journal.journal': ApiJournalJournal;
       'api::mail.mail': ApiMailMail;
+      'api::meeting.meeting': ApiMeetingMeeting;
       'api::organizational-position.organizational-position': ApiOrganizationalPositionOrganizationalPosition;
       'api::quotation.quotation': ApiQuotationQuotation;
       'api::sub-account.sub-account': ApiSubAccountSubAccount;
