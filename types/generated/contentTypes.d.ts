@@ -1039,6 +1039,38 @@ export interface ApiContactTypeContactType extends Schema.CollectionType {
   };
 }
 
+export interface ApiExpenseExpense extends Schema.CollectionType {
+  collectionName: 'expenses';
+  info: {
+    singularName: 'expense';
+    pluralName: 'expenses';
+    displayName: 'Expense';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    title: Attribute.String;
+    amount: Attribute.Decimal;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::expense.expense',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::expense.expense',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
 export interface ApiIndividualAccountIndividualAccount
   extends Schema.CollectionType {
   collectionName: 'individual_accounts';
@@ -1419,6 +1451,38 @@ export interface ApiQuotationQuotation extends Schema.CollectionType {
   };
 }
 
+export interface ApiRevenueRevenue extends Schema.CollectionType {
+  collectionName: 'revenues';
+  info: {
+    singularName: 'revenue';
+    pluralName: 'revenues';
+    displayName: 'Revenue';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    title: Attribute.String;
+    amount: Attribute.Decimal;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::revenue.revenue',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::revenue.revenue',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
 export interface ApiSubAccountSubAccount extends Schema.CollectionType {
   collectionName: 'sub_accounts';
   info: {
@@ -1586,6 +1650,7 @@ declare module '@strapi/types' {
       'api::company.company': ApiCompanyCompany;
       'api::contact-person.contact-person': ApiContactPersonContactPerson;
       'api::contact-type.contact-type': ApiContactTypeContactType;
+      'api::expense.expense': ApiExpenseExpense;
       'api::individual-account.individual-account': ApiIndividualAccountIndividualAccount;
       'api::invoice-detail.invoice-detail': ApiInvoiceDetailInvoiceDetail;
       'api::invoice-master.invoice-master': ApiInvoiceMasterInvoiceMaster;
@@ -1594,6 +1659,7 @@ declare module '@strapi/types' {
       'api::meeting.meeting': ApiMeetingMeeting;
       'api::organizational-position.organizational-position': ApiOrganizationalPositionOrganizationalPosition;
       'api::quotation.quotation': ApiQuotationQuotation;
+      'api::revenue.revenue': ApiRevenueRevenue;
       'api::sub-account.sub-account': ApiSubAccountSubAccount;
       'api::transaction.transaction': ApiTransactionTransaction;
       'api::user-profile.user-profile': ApiUserProfileUserProfile;
