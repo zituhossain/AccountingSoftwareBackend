@@ -1341,6 +1341,16 @@ export interface ApiMeetingMeeting extends Schema.CollectionType {
       'oneToOne',
       'plugin::users-permissions.user'
     >;
+    meeting_users: Attribute.Relation<
+      'api::meeting.meeting',
+      'oneToMany',
+      'plugin::users-permissions.user'
+    >;
+    agreed_users: Attribute.Relation<
+      'api::meeting.meeting',
+      'oneToMany',
+      'plugin::users-permissions.user'
+    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
