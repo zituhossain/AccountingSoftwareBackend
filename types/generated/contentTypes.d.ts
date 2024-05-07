@@ -1235,7 +1235,7 @@ export interface ApiJournalJournal extends Schema.CollectionType {
     draftAndPublish: true;
   };
   attributes: {
-    date: Attribute.DateTime;
+    date: Attribute.Date;
     description: Attribute.Text;
     reference: Attribute.String;
     company: Attribute.Relation<
