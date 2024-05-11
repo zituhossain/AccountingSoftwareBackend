@@ -74,4 +74,173 @@ module.exports = createCoreController("api::journal.journal", ({ strapi }) => ({
       return ctx.internalServerError("Unable to fetch journals");
     }
   },
+
+  async findCurrentAssetJournalByExpenseIdAndDate(ctx) {
+    const { expenseIds } = ctx.params;
+    const { startDate, endDate } = ctx.query;
+    console.log("expenseIds:", expenseIds);
+
+    try {
+      const knex = strapi.db.connection;
+
+      const journals = await knex.raw(
+        `
+        SELECT journals.*, individual_accounts.*, journals_debit_account_links.*
+        FROM journals
+        JOIN journals_debit_account_links ON journals.id = journals_debit_account_links.journal_id
+        JOIN individual_accounts ON journals_debit_account_links.individual_account_id = individual_accounts.id
+        WHERE individual_accounts.id IN (?)
+        AND journals.created_at >= ?
+        AND journals.created_at <= ?
+      `,
+        [expenseIds.split(","), new Date(startDate), new Date(endDate)]
+      );
+      // AND journals.date BETWEEN '2024-05-01' AND '2024-05-07'
+
+      console.log("journals:", journals[0]);
+
+      return journals[0];
+    } catch (err) {
+      strapi.log.error(
+        "findJournalsByCurrentAssetHeadIdAndDateRange error:",
+        err
+      );
+      return ctx.internalServerError("Unable to fetch journals");
+    }
+  },
+
+  async findFixedAssetJournalByExpenseIdAndDate(ctx) {
+    const { expenseIds } = ctx.params;
+    const { startDate, endDate } = ctx.query;
+    console.log("expenseIds:", expenseIds);
+
+    try {
+      const knex = strapi.db.connection;
+
+      const journals = await knex.raw(
+        `
+        SELECT journals.*, individual_accounts.*, journals_debit_account_links.*
+        FROM journals
+        JOIN journals_debit_account_links ON journals.id = journals_debit_account_links.journal_id
+        JOIN individual_accounts ON journals_debit_account_links.individual_account_id = individual_accounts.id
+        WHERE individual_accounts.id IN (?)
+        AND journals.created_at >= ?
+        AND journals.created_at <= ?
+      `,
+        [expenseIds.split(","), new Date(startDate), new Date(endDate)]
+      );
+      // AND journals.date BETWEEN '2024-05-01' AND '2024-05-07'
+
+      console.log("journals:", journals[0]);
+
+      return journals[0];
+    } catch (err) {
+      strapi.log.error(
+        "findJournalsByCurrentAssetHeadIdAndDateRange error:",
+        err
+      );
+      return ctx.internalServerError("Unable to fetch journals");
+    }
+  },
+
+  async findCurrentLiabilitiesJournalByExpenseIdAndDate(ctx) {
+    const { expenseIds } = ctx.params;
+    const { startDate, endDate } = ctx.query;
+
+    try {
+      const knex = strapi.db.connection;
+
+      const journals = await knex.raw(
+        `
+        SELECT journals.*, individual_accounts.*, journals_credit_account_links.*
+        FROM journals
+        JOIN journals_credit_account_links ON journals.id = journals_credit_account_links.journal_id
+        JOIN individual_accounts ON journals_credit_account_links.individual_account_id = individual_accounts.id
+        WHERE individual_accounts.id IN (?)
+        AND journals.created_at >= ?
+        AND journals.created_at <= ?
+      `,
+        [expenseIds.split(","), new Date(startDate), new Date(endDate)]
+      );
+      // AND journals.date BETWEEN '2024-05-01' AND '2024-05-07'
+
+      console.log("journals:", journals[0]);
+
+      return journals[0];
+    } catch (err) {
+      strapi.log.error(
+        "findJournalsByCurrentAssetHeadIdAndDateRange error:",
+        err
+      );
+      return ctx.internalServerError("Unable to fetch journals");
+    }
+  },
+
+  async findFixedLiabilitiesJournalByExpenseIdAndDate(ctx) {
+    const { expenseIds } = ctx.params;
+    const { startDate, endDate } = ctx.query;
+    console.log("expenseIds:", expenseIds);
+
+    try {
+      const knex = strapi.db.connection;
+
+      const journals = await knex.raw(
+        `
+        SELECT journals.*, individual_accounts.*, journals_debit_account_links.*
+        FROM journals
+        JOIN journals_debit_account_links ON journals.id = journals_debit_account_links.journal_id
+        JOIN individual_accounts ON journals_debit_account_links.individual_account_id = individual_accounts.id
+        WHERE individual_accounts.id IN (?)
+        AND journals.created_at >= ?
+        AND journals.created_at <= ?
+      `,
+        [expenseIds.split(","), new Date(startDate), new Date(endDate)]
+      );
+      // AND journals.date BETWEEN '2024-05-01' AND '2024-05-07'
+
+      console.log("journals:", journals[0]);
+
+      return journals[0];
+    } catch (err) {
+      strapi.log.error(
+        "findJournalsByCurrentAssetHeadIdAndDateRange error:",
+        err
+      );
+      return ctx.internalServerError("Unable to fetch journals");
+    }
+  },
+
+  async findEquityJournalByExpenseIdAndDate(ctx) {
+    const { expenseIds } = ctx.params;
+    const { startDate, endDate } = ctx.query;
+    console.log("expenseIds:", expenseIds);
+
+    try {
+      const knex = strapi.db.connection;
+
+      const journals = await knex.raw(
+        `
+        SELECT journals.*, individual_accounts.*, journals_debit_account_links.*
+        FROM journals
+        JOIN journals_debit_account_links ON journals.id = journals_debit_account_links.journal_id
+        JOIN individual_accounts ON journals_debit_account_links.individual_account_id = individual_accounts.id
+        WHERE individual_accounts.id IN (?)
+        AND journals.created_at >= ?
+        AND journals.created_at <= ?
+      `,
+        [expenseIds.split(","), new Date(startDate), new Date(endDate)]
+      );
+      // AND journals.date BETWEEN '2024-05-01' AND '2024-05-07'
+
+      console.log("journals:", journals[0]);
+
+      return journals[0];
+    } catch (err) {
+      strapi.log.error(
+        "findJournalsByCurrentAssetHeadIdAndDateRange error:",
+        err
+      );
+      return ctx.internalServerError("Unable to fetch journals");
+    }
+  },
 }));
