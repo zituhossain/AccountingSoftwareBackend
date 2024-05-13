@@ -20,14 +20,6 @@
         "images"
       ]
     },
-    "signature": {
-      "type": "media",
-      "multiple": false,
-      "required": false,
-      "allowedTypes": [
-        "images"
-      ]
-    },
     "address": {
       "type": "text"
     },
@@ -37,7 +29,8 @@
     "user": {
       "type": "relation",
       "relation": "oneToOne",
-      "target": "plugin::users-permissions.user"
+      "target": "plugin::users-permissions.user",
+      "mappedBy": "user_profile"
     }
   }
 }

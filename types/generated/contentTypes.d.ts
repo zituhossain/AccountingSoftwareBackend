@@ -780,6 +780,11 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
       'oneToOne',
       'plugin::users-permissions.user'
     >;
+    user_profile: Attribute.Relation<
+      'plugin::users-permissions.user',
+      'oneToOne',
+      'api::user-profile.user-profile'
+    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
@@ -1611,7 +1616,6 @@ export interface ApiUserProfileUserProfile extends Schema.CollectionType {
   };
   attributes: {
     profile: Attribute.Media;
-    signature: Attribute.Media;
     address: Attribute.Text;
     phone: Attribute.String;
     user: Attribute.Relation<
